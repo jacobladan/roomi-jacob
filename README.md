@@ -1,2 +1,2 @@
 # roomi
-Smart home and security platform
+Smart home automation and security
