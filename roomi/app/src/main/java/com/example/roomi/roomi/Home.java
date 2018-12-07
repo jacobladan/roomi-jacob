@@ -79,6 +79,8 @@ public class Home extends AppCompatActivity {
                             Home.this.startActivity(myIntent);
                         } else if (id == R.id.nav_security) {
                             // Goes to Security Activity
+                            Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
+                            startActivity(security);
                         } else if (id == R.id.nav_settings) {
                             // Goes to Settings Page
                             Intent settings = new Intent(getApplicationContext(), Settings.class);

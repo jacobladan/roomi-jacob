@@ -88,7 +88,6 @@ public class SecuritySelector extends AppCompatActivity {
                             startActivity(mAboutUs);
                         } else if (id == R.id.nav_logout) {
                             // Logs out and displays the Log In Screen
-
                             mAuth.signOut();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
