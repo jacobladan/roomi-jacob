@@ -1,18 +1,21 @@
 package com.example.roomi.roomi;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +27,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class Settings extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseUser fbuser;
+    private FirebaseUser fbUser;
     private DatabaseReference dbRef;
     private FirebaseDatabase database;
     private FirebaseAuth.AuthStateListener authListener;
@@ -36,7 +41,9 @@ public class Settings extends AppCompatActivity {
     private View headerView;
     private User user;
     private TextView fullName, fullNameMenu, emailMenu;;
-    private Button emailChange, passwordChange, languageChange, deleteAccount;
+    private Button emailChange, passwordChange, deleteAccount, save;
+    private RadioButton english, french;
+    private String languageCode;
 
     @Override
     protected void onStart() {
@@ -58,11 +65,12 @@ public class Settings extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
 
+        getFromSharedPreference();
         mAuth = FirebaseAuth.getInstance();
-        fbuser = mAuth.getCurrentUser();
+        fbUser = mAuth.getCurrentUser();
 
         // No user logged in
-        if (fbuser == null) {
+        if (fbUser == null) {
             startActivity(new Intent(Settings.this, MainActivity.class));
             finish();
         }
@@ -71,6 +79,12 @@ public class Settings extends AppCompatActivity {
         getDatabase();
         logoutListener();
         retrieveData();
+
+        if(languageCode.equalsIgnoreCase("en")) {
+            english.setChecked(true);
+        } else if (languageCode.equalsIgnoreCase("fr")) {
+            french.setChecked(true);
+        }
 
         emailChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,28 +102,35 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        languageChange.setOnClickListener(new View.OnClickListener() {
+        english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                break;
+                languageCode = "en";
+            }
+        });
 
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };
+        french.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                languageCode = "fr";
+            }
+        });
 
+        save.setOnClickListener(new View.OnClickListener() {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
+            @Override
+            public void onClick(View v) {
+                Locale locale = new Locale(languageCode);
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getBaseContext().getResources().updateConfiguration(config,
+                        getBaseContext().getResources().getDisplayMetrics());
+                saveToSharedPreference();
+
+                Intent intent = new Intent(getApplicationContext(), Settings.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 
@@ -159,6 +180,17 @@ public class Settings extends AppCompatActivity {
         );
     }
 
+    public void saveToSharedPreference() {
+        SharedPreferences.Editor editor = getSharedPreferences("language", MODE_PRIVATE).edit();
+        editor.putString("lang", languageCode);
+        editor.apply();
+    }
+
+    public void getFromSharedPreference() {
+        SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
+        languageCode = prefs.getString("lang", "en");
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -177,19 +209,20 @@ public class Settings extends AppCompatActivity {
     public void findViews() {
         emailChange = findViewById(R.id.emailChange);
         passwordChange = findViewById(R.id.passwordChange);
-        languageChange = findViewById(R.id.usernameChange);
         deleteAccount = findViewById(R.id.deleteAccount);
         fullName = findViewById(R.id.fullName);
-
         navigationView = findViewById(R.id.nav_view);
         headerView = navigationView.getHeaderView(0);
         fullNameMenu = headerView.findViewById(R.id.fullNameUser);
         emailMenu = headerView.findViewById(R.id.emailUser);
+        save = findViewById(R.id.save);
+        english = findViewById(R.id.english);
+        french = findViewById(R.id.french);
     }
 
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("users/"+fbuser.getUid());
+        dbRef = database.getReference("users/"+ fbUser.getUid());
     }
 
     private void retrieveData() {

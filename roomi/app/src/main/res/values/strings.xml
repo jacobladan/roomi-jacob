@@ -18,7 +18,7 @@
     <string name="bedroom">bedroom</string>
     <string name="living_room">living room</string>
     <string name="plus" translatable="false">+</string>
-    <string name="title_activity_hamburger_menu">HamburgerMenu</string>
+    <string name="title_activity_hamburger_menu" translatable="false">HamburgerMenu</string>
     <string name="rooms">rooms</string>
     <string name="about_us">about us</string>
     <string name="menu_home">Home</string>
@@ -28,15 +28,13 @@
     <string name="menu_aboutus">About Us</string>
     <string name="menu_logout">Log out</string>
     <string name="menu_exit">Exit</string>
-    <string name="aboutUs_info"> Roomi is an interactive application that allows you to control the settings and configurations of a particular room in your smart home.
+    <string name="aboutUs_info" translatable="false"> Roomi is an interactive application that allows you to control the settings and configurations of a particular room in your smart home.
         The core objective of Roomi is to allow the user to access both their room security and smart home settings from one central application. This app will allow users easier and more intuitive
         access to security and smart home management</string>
     <string name="about_us_string">About Us</string>
     <string name="additional_information">Our Goal</string>
-    <string name="additional_info_string">Roomi values ease of use over all attributes. The application\'s main goal is to allow the easier control of various traits of rooms and security throughout homes, offices, and/or labs. Among other features, the application values reliability. To ensure the best user experience these key traits are crucial to the development process. Users are able to change settings about a room such as lighting and temperature. Additional support for third party smart devices will be added in the future. </string>
+    <string name="additional_info_string" translatable="false">Roomi values ease of use over all attributes. The application\'s main goal is to allow the easier control of various traits of rooms and security throughout homes, offices, and/or labs. Among other features, the application values reliability. To ensure the best user experience these key traits are crucial to the development process. Users are able to change settings about a room such as lighting and temperature. Additional support for third party smart devices will be added in the future. </string>
     <string name="submit">Submit</string>
-    <string name="set_birthday">Set birthday</string>
-    <string name="birthday">Birthday</string>
     <string name="username">Username</string>
     <string name="usernameEditText">Username</string>
     <string name="firstname">First name</string>
@@ -63,7 +61,7 @@
     <string name="jacob_name" translatable="false">Jacob Ladan</string>
     <string name="jacob_description">Jacob is going to be a software developer when he grows up. Also he likes sushi.</string>
     <string name="marko_name" translatable="false">Marko Javorac</string>
-    <string name="marko_description">Marko is going to write his own description.</string>
+    <string name="marko_description" translatable="false">Marko is going to write his own description.</string>
     <string name="placeholder_text">placeholder</string>
     <string name="select_a_room">Select a Room</string>
     <string name="add_a_room">Add a Room</string>
@@ -72,13 +70,11 @@
     <string name="brightness">Brightness (0–100%)</string>
     <string name="temperature_label">Temperature:</string>
     <string name="brightness_label">Light Brightness:</string>
-    <string name="degrees_cel">°C</string>
-    <string name="percent">%</string>
+    <string name="degrees_cel" translatable="false">°C</string>
+    <string name="percent" translatable="false">%</string>
     <string name="cancel">Cancel</string>
     <string name="update_settings">Update Settings</string>
     <string name="settings">Settings</string>
-    <string name="change_password">Change Password</string>
-    <string name="delete_account">Delete Account</string>
     <string name="add_access_level_0_5">Access Level (0-5)</string>
     <string name="select_a_person">Select a person</string>
     <string name="avatar_colour">Avatar Colour</string>
@@ -86,4 +82,10 @@
     <string name="add_security_room">Add Security Room</string>
     <string name="add_a_person">Add a person</string>
     <string name="personnel">Personnel</string>
+    <string name="english">English</string>
+    <string name="french">French</string>
+    <string name="change_language_text">Change Language</string>
+    <string name="change_email">Change email</string>
+    <string name="change_password">Change Password</string>
+    <string name="delete_account">Delete Account</string>
 </resources>

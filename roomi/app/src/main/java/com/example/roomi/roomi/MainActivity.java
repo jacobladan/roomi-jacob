@@ -1,6 +1,8 @@
 package com.example.roomi.roomi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button loginButton;
     private TextView createAccount;
+    private String languageCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Getting Auth Instance
         mAuth = FirebaseAuth.getInstance();
-
+        getFromSharedPreference();
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(MainActivity.this, Home.class));
             finish();
@@ -62,6 +67,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void saveToSharedPreference() {
+        SharedPreferences.Editor editor = getSharedPreferences("language", MODE_PRIVATE).edit();
+        editor.putString("lang", languageCode);
+        editor.apply();
+    }
+
+    public void getFromSharedPreference() {
+        SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
+        languageCode = prefs.getString("lang", "en");
     }
 
     // Get views on the activity

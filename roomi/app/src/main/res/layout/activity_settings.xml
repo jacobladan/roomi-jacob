@@ -43,7 +43,7 @@
                     android:layout_marginTop="70dp"
                     android:layout_marginRight="50dp"
                     android:background="@drawable/element_background_dark"
-                    android:text="Change email"
+                    android:text="@string/change_email"
                     android:textAllCaps="false"
                     android:textColor="@color/colorText"
                     android:textSize="18sp" />
@@ -56,23 +56,58 @@
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="50dp"
                     android:background="@drawable/element_background_dark"
-                    android:text="Change Password"
+                    android:text="@string/change_password"
                     android:textAllCaps="false"
                     android:textColor="@color/colorText"
                     android:textSize="18sp" />
 
-                <Button
-                    android:id="@+id/usernameChange"
+
+                <TextView
+                    android:id="@+id/changeLanguageText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="25sp"
                     android:layout_marginLeft="50dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="50dp"
-                    android:background="@drawable/element_background_dark"
-                    android:text="Change Language"
-                    android:textAllCaps="false"
+                    android:layout_marginBottom="20dp"
                     android:textColor="@color/colorText"
-                    android:textSize="18sp" />
+                    android:text="@string/change_language_text" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp">
+
+                    <RadioButton
+                        android:id="@+id/english"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorText"
+                        android:text="@string/english" />
+
+                    <RadioButton
+                        android:id="@+id/french"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorText"
+                        android:text="@string/french" />
+
+                    <Button
+                        android:id="@+id/save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/element_background_dark"
+                        android:textColor="@color/colorText"
+                        android:textAllCaps="false"
+                        android:textSize="18sp"
+                        android:text="Save"/>
+
+                </RadioGroup>
 
                 <Button
                     android:id="@+id/deleteAccount"
@@ -83,7 +118,7 @@
                     android:layout_marginBottom="50dp"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/element_background_dark"
-                    android:text="Delete Account"
+                    android:text="@string/delete_account"
                     android:textAllCaps="false"
                     android:textColor="@color/colorAccent"
                     android:textSize="18sp"
