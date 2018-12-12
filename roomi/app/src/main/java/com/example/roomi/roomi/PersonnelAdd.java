@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class PersonnelAdd extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
 
@@ -37,51 +36,12 @@ public class PersonnelAdd extends AppCompatActivity {
         setContentView(R.layout.activity_personnel_add);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
         setTitle(R.string.add_a_person);
         getDatabase();
         getElements();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        int id = menuItem.getItemId();
-
-                        if (id == R.id.nav_home) {
-                            Intent mAboutUs = new Intent(PersonnelAdd.this, RoomSelector.class);
-                            startActivity(mAboutUs);
-                        } else if (id == R.id.nav_security) {
-                            // Goes to Security Activity
-                            Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
-                            startActivity(security);
-                        } else if (id == R.id.nav_settings) {
-                            // Goes to Settings Page
-                            Intent settings = new Intent(getApplicationContext(), Settings.class);
-                            startActivity(settings);
-                        } else if (id == R.id.nav_aboutus) {
-                            // Displays the About Us page
-                            Intent mAboutUs = new Intent(PersonnelAdd.this, AboutUs.class);
-                            startActivity(mAboutUs);
-
-                        } else if (id == R.id.nav_logout) {
-                            // Logs out and displays the Log In Screen
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
-                        } else if (id == R.id.nav_exit) {
-                            finishAffinity();
-                        }
-
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }});
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override

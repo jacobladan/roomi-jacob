@@ -10,8 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -157,24 +159,22 @@ public class PersonnelSelector extends AppCompatActivity {
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(900, 200);
-        params.setMargins(0, 0, 0, 65);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(900, 300);
+        buttonParams.setMargins(0, 0, 0, 50);
 
         for (PersonnelDatastructure personnel: personnelList) {
             final String key = keyList[i];
             final String name = personnel.getName();
             final String avatarColour = personnel.getAvatarColour();
             final int accessLevel = personnel.getaccessLevel();
-            Button button = new Button(this);
-            button.setTag(personnel.getName());
-            button.setBackgroundResource(R.drawable.element_background_dark);
-            button.setLayoutParams(params);
-            button.setText(personnel.getName());
-            button.setTextSize(20);
-            button.setTextColor(Color.WHITE);
-            button.setTransformationMethod(null);
+            final String accessInfo = "Access Level: " + accessLevel;
 
-            button.setOnClickListener(new View.OnClickListener() {
+            LinearLayout personnelContainer = new LinearLayout(this);
+            personnelContainer.setBackgroundResource(R.drawable.element_background_dark);
+            personnelContainer.setLayoutParams(buttonParams);
+            personnelContainer.setOrientation(LinearLayout.VERTICAL);
+
+            personnelContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(PersonnelSelector.this, PersonnelSettings.class);
@@ -185,16 +185,50 @@ public class PersonnelSelector extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            Button button = new Button(this);
+            button.setBackgroundColor(Color.TRANSPARENT);
+            button.setText(name);
+            button.setTextSize(20);
+            button.setTextColor(Color.WHITE);
+            button.setClickable(false);
+            button.setTransformationMethod(null);
+
+
+            LinearLayout infoContainer = new LinearLayout(this);
+            infoContainer.setHorizontalGravity(Gravity.CENTER);
+            infoContainer.setVerticalGravity(Gravity.CENTER);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(900, 100);
+            layoutParams.setMargins(0, 0, 0, 50);
+
+            infoContainer.setLayoutParams(layoutParams);
+
+            TextView accessInfoView = new TextView(this);
+
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textParams.setMargins(0, 0, 25, 0);
+
+            accessInfoView.setLayoutParams(textParams);
+            accessInfoView.setText(accessInfo);
+            accessInfoView.setTextColor(Color.WHITE);
+            accessInfoView.setTextSize(16);
+
+            infoContainer.addView(accessInfoView);
+
+            personnelContainer.addView(button);
+            personnelContainer.addView(infoContainer);
+
+            buttonContainer.addView(personnelContainer);
             i++;
-            buttonContainer.addView(button);
         }
 
         Button addPersonnelButton = new Button(this);
         addPersonnelButton.setTag("add_personnel");
         addPersonnelButton.setBackgroundResource(R.drawable.element_background_dark);
-        addPersonnelButton.setLayoutParams(params);
+        addPersonnelButton.setLayoutParams(buttonParams);
         addPersonnelButton.setText("+");
-        addPersonnelButton.setTextSize(20);
+        addPersonnelButton.setTextSize(40);
         addPersonnelButton.setTextColor(Color.WHITE);
         addPersonnelButton.setTransformationMethod(null);
 

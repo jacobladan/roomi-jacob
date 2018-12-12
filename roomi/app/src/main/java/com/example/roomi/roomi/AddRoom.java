@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddRoom extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
 

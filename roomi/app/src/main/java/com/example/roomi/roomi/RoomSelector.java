@@ -10,11 +10,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,24 +172,23 @@ public class RoomSelector extends AppCompatActivity {
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(900, 200);
-        params.setMargins(0, 0, 0, 65);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(900, 300);
+        buttonParams.setMargins(0, 0, 0, 50);
 
         for (RoomDatastructure room: roomList) {
             final String key = keyList[i];
             final String name = room.getName();
             final int temperature = room.getTemperature();
             final int brightness = room.getBrightness();
-            Button button = new Button(this);
-            button.setTag(room.getName());
-            button.setBackgroundResource(R.drawable.element_background_dark);
-            button.setLayoutParams(params);
-            button.setText(room.getName());
-            button.setTextSize(20);
-            button.setTextColor(Color.WHITE);
-            button.setTransformationMethod(null);
+            final String brightnessInfo = "Brightness: " + brightness;
+            final String temperatureInfo = "Temperature: " + temperature;
 
-            button.setOnClickListener(new View.OnClickListener() {
+            LinearLayout roomContainer = new LinearLayout(this);
+            roomContainer.setBackgroundResource(R.drawable.element_background_dark);
+            roomContainer.setLayoutParams(buttonParams);
+            roomContainer.setOrientation(LinearLayout.VERTICAL);
+
+            roomContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(RoomSelector.this, RoomSettings.class);
@@ -195,16 +199,56 @@ public class RoomSelector extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            Button button = new Button(this);
+            button.setBackgroundColor(Color.TRANSPARENT);
+            button.setText(room.getName());
+            button.setTextSize(20);
+            button.setTextColor(Color.WHITE);
+            button.setClickable(false);
+            button.setTransformationMethod(null);
+
+            LinearLayout infoContainer = new LinearLayout(this);
+            infoContainer.setHorizontalGravity(Gravity.CENTER);
+            infoContainer.setVerticalGravity(Gravity.CENTER);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(900, 100);
+            layoutParams.setMargins(0, 0, 0, 50);
+
+            infoContainer.setLayoutParams(layoutParams);
+
+            TextView brightnessView = new TextView(this);
+            TextView temperatureView = new TextView(this);
+
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textParams.setMargins(0, 0, 25, 0);
+
+            brightnessView.setLayoutParams(textParams);
+            brightnessView.setText(brightnessInfo);
+            brightnessView.setTextColor(Color.WHITE);
+            brightnessView.setTextSize(16);
+
+            temperatureView.setText(temperatureInfo);
+            temperatureView.setTextColor(Color.WHITE);
+            temperatureView.setTextSize(16);
+
+            infoContainer.addView(brightnessView);
+            infoContainer.addView(temperatureView);
+
+            roomContainer.addView(button);
+            roomContainer.addView(infoContainer);
+
+            buttonContainer.addView(roomContainer);
+
             i++;
-            buttonContainer.addView(button);
         }
 
         Button addRoomButton = new Button(this);
         addRoomButton.setTag("add_room");
         addRoomButton.setBackgroundResource(R.drawable.element_background_dark);
-        addRoomButton.setLayoutParams(params);
+        addRoomButton.setLayoutParams(buttonParams);
         addRoomButton.setText("+");
-        addRoomButton.setTextSize(20);
+        addRoomButton.setTextSize(40);
         addRoomButton.setTextColor(Color.WHITE);
         addRoomButton.setTransformationMethod(null);
 

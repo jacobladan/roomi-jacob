@@ -10,8 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -157,23 +159,21 @@ public class SecurityRoomSelector extends AppCompatActivity {
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(900, 200);
-        params.setMargins(0, 0, 0, 65);
+        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(900, 300);
+        buttonParams.setMargins(0, 0, 0, 50);
 
         for (RoomDatastructure room: roomList) {
             final String key = keyList[i];
             final String name = room.getName();
             final int accessLevel = room.getAccessLevel();
-            Button button = new Button(this);
-            button.setTag(room.getName());
-            button.setBackgroundResource(R.drawable.element_background_dark);
-            button.setLayoutParams(params);
-            button.setText(room.getName());
-            button.setTextSize(20);
-            button.setTextColor(Color.WHITE);
-            button.setTransformationMethod(null);
+            final String accessInfo = "Access Level: " + accessLevel;
 
-            button.setOnClickListener(new View.OnClickListener() {
+            LinearLayout roomContainer = new LinearLayout(this);
+            roomContainer.setBackgroundResource(R.drawable.element_background_dark);
+            roomContainer.setLayoutParams(buttonParams);
+            roomContainer.setOrientation(LinearLayout.VERTICAL);
+
+            roomContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(SecurityRoomSelector.this, SecurityRoomSettings.class);
@@ -183,16 +183,51 @@ public class SecurityRoomSelector extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            Button button = new Button(this);
+            button.setBackgroundColor(Color.TRANSPARENT);
+            button.setText(room.getName());
+            button.setTextSize(20);
+            button.setTextColor(Color.WHITE);
+            button.setClickable(false);
+            button.setTransformationMethod(null);
+
+            LinearLayout infoContainer = new LinearLayout(this);
+            infoContainer.setHorizontalGravity(Gravity.CENTER);
+            infoContainer.setVerticalGravity(Gravity.CENTER);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(900, 100);
+            layoutParams.setMargins(0, 0, 0, 50);
+
+            infoContainer.setLayoutParams(layoutParams);
+
+            TextView accessView = new TextView(this);
+
+            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            textParams.setMargins(0, 0, 25, 0);
+
+            accessView.setLayoutParams(textParams);
+            accessView.setText(accessInfo);
+            accessView.setTextColor(Color.WHITE);
+            accessView.setTextSize(16);
+
+
+            infoContainer.addView(accessView);
+
+            roomContainer.addView(button);
+            roomContainer.addView(infoContainer);
+
+            buttonContainer.addView(roomContainer);
+
             i++;
-            buttonContainer.addView(button);
         }
 
         Button addSecurityRoomButton = new Button(this);
         addSecurityRoomButton.setTag("add_room");
         addSecurityRoomButton.setBackgroundResource(R.drawable.element_background_dark);
-        addSecurityRoomButton.setLayoutParams(params);
+        addSecurityRoomButton.setLayoutParams(buttonParams);
         addSecurityRoomButton.setText("+");
-        addSecurityRoomButton.setTextSize(20);
+        addSecurityRoomButton.setTextSize(40);
         addSecurityRoomButton.setTextColor(Color.WHITE);
         addSecurityRoomButton.setTransformationMethod(null);
 
