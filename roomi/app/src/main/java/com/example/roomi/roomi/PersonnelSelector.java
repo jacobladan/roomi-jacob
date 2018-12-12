@@ -33,7 +33,8 @@ public class PersonnelSelector extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
-
+    private int i;
+    private String[] keyList;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
     private TextView fullNameMenu, emailMenu;
@@ -72,66 +73,13 @@ public class PersonnelSelector extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        int id = menuItem.getItemId();
-
-                        if (id == R.id.nav_home) {
-
-                            // Goes to Room Selector
-                            Intent myIntent = new Intent(getApplicationContext(), RoomSelector.class);
-                            startActivity(myIntent);
-
-                        } else if (id == R.id.nav_security) {
-
-                            // Goes to Security Activity
-                            Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
-                            startActivity(security);
-
-                        } else if (id == R.id.nav_settings) {
-
-                            // Goes to Settings Page
-                            Intent settings = new Intent(getApplicationContext(), Settings.class);
-                            startActivity(settings);
-
-                        } else if (id == R.id.nav_aboutus) {
-
-                            // Goes to About Us Page
-                            Intent mAboutUs = new Intent(getApplicationContext(), AboutUs.class);
-                            startActivity(mAboutUs);
-
-                        } else if (id == R.id.nav_logout) {
-
-                            // Logs out and displays the Log In Screen
-                            mAuth.signOut();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
-                        } else if (id == R.id.nav_exit) {
-                            finishAffinity();
-                        }
-
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }});
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
+                finish();
                 return true;
         }
 
@@ -140,8 +88,8 @@ public class PersonnelSelector extends AppCompatActivity {
 
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("personnel");
         dbUserRef = database.getReference("users/" + mAuth.getUid());
+        dbRef = database.getReference("users/" + mAuth.getCurrentUser().getUid() + "/personnel");
     }
 
     private void findViews() {
@@ -189,20 +137,26 @@ public class PersonnelSelector extends AppCompatActivity {
     private void fetchPersonnel(DataSnapshot dataSnapshot) {
         List<PersonnelDatastructure> personnelList = new ArrayList<>();
         personnelList.clear();
+        keyList = new String[(int) dataSnapshot.getChildrenCount()];
+        i = 0;
         for (DataSnapshot personnelSnapShot: dataSnapshot.getChildren()) {
             PersonnelDatastructure personnel = personnelSnapShot.getValue(PersonnelDatastructure.class);
             personnelList.add(personnel);
+            keyList[i] = personnelSnapShot.getKey();
+            i++;
         }
-        generatePersonnelButtons(personnelList);
+        generatePersonnelButtons(personnelList, keyList);
     }
 
-    private void generatePersonnelButtons(List<PersonnelDatastructure> personnelList) {
+    private void generatePersonnelButtons(List<PersonnelDatastructure> personnelList, final String[] keyList) {
+        i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(900, 200);
         params.setMargins(0, 0, 0, 65);
 
         for (PersonnelDatastructure personnel: personnelList) {
+            final String key = keyList[i];
             final String name = personnel.getName();
             final String avatarColour = personnel.getAvatarColour();
             final int accessLevel = personnel.getaccessLevel();
@@ -222,10 +176,11 @@ public class PersonnelSelector extends AppCompatActivity {
                     intent.putExtra("name", name);
                     intent.putExtra("avatarColour", avatarColour);
                     intent.putExtra("accessLevel", accessLevel);
+                    intent.putExtra("key", key);
                     startActivity(intent);
                 }
             });
-
+            i++;
             buttonContainer.addView(button);
         }
 

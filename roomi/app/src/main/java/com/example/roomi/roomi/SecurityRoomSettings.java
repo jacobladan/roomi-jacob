@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,9 +47,6 @@ public class SecurityRoomSettings extends AppCompatActivity {
         extras = getIntent().getExtras();
         nameVal = extras.getString("name");
 
-        //        TODO Hint in text field
-//        nameInput.setHint("Current: " + nameVal);
-//        accessLevelInput.setHint("Current: " + extras.getInt("accessLevel"));
         nameVal = extras.getString("name");
         key = extras.getString("key");
         Log.d("KeyTest", key);
@@ -63,7 +62,6 @@ public class SecurityRoomSettings extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_delete);
 
-//TODO: Make it so security and home settings don't overwrite each other
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,8 +93,10 @@ public class SecurityRoomSettings extends AppCompatActivity {
     }
 
     private void getDatabase() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
     }
 
     private void findViews() {

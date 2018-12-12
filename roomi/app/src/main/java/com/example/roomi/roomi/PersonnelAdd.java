@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -41,7 +43,6 @@ public class PersonnelAdd extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -88,8 +89,7 @@ public class PersonnelAdd extends AppCompatActivity {
                     String avatarColour = avatarColourInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
                     DatabaseReference newPersonnel = dbRef.push();
-                    newPersonnel.setValue(new PersonnelDatastructure(name, avatarColour,accessLevel));
-//                    dbRef.child(name).setValue(new PersonnelDatastructure(name, avatarColour, accessLevel));
+                    newPersonnel.setValue(new PersonnelDatastructure(name, avatarColour, accessLevel));
                     finish();
                 }
             }
@@ -100,11 +100,7 @@ public class PersonnelAdd extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
+                finish();
                 return true;
         }
 
@@ -119,14 +115,15 @@ public class PersonnelAdd extends AppCompatActivity {
     }
 
     private void getDatabase() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("personnel");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/personnel");
     }
 
     private boolean validateData() {
         String name = nameInput.getText().toString();
 
-        //TODO avatarColour Verification
         String avatarColour = nameInput.getText().toString();
         int accessLevel = 0;
 
@@ -137,10 +134,9 @@ public class PersonnelAdd extends AppCompatActivity {
         }
 
         if (name.length() < 3 || name.length() > 25) return false;
-        //TODO avatarColour Verification
 
-        //TODO verify max access?
         if (accessLevel < 0 || accessLevel > 5) return false;
+//        TODO: Add validity for avatar colour
         return true;
     }
 }

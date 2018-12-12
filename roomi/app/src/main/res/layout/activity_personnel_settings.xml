@@ -43,7 +43,7 @@
             android:textSize="22sp" />
 
         <EditText
-            android:id="@+id/update_name_input"
+            android:id="@+id/update_personnel_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
             android:textSize="22sp" />
 
         <EditText
-            android:id="@+id/update_access_level_input"
+            android:id="@+id/update_personnel_access_level_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -95,7 +95,7 @@
             android:textSize="22sp" />
 
         <EditText
-            android:id="@+id/update_avatar_colour_input"
+            android:id="@+id/update_personnel_avatar_colour_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

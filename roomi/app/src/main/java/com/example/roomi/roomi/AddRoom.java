@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,7 +55,6 @@ public class AddRoom extends AppCompatActivity {
 
                     DatabaseReference newRoom = dbRef.push();
                     newRoom.setValue(new RoomDatastructure(name, temperature, brightness, false, true, 0));
-//                    dbRef.child(name).setValue(new RoomDatastructure(name, temperature, brightness, false, true, 0));
                     Toast toast = Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG);
                     toast.show();
                     finish();
@@ -89,8 +90,10 @@ public class AddRoom extends AppCompatActivity {
     }
 
     private void getDatabase() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
     }
 
     private boolean validateData() {

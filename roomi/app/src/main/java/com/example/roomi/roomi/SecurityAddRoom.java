@@ -13,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SecurityAddRoom extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
 
@@ -32,53 +34,12 @@ public class SecurityAddRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_add_room);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
         setTitle(R.string.add_a_room);
         getDatabase();
         getElements();
 
-//        TODO Remove Nav Bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        int id = menuItem.getItemId();
-
-                        if (id == R.id.nav_home) {
-                            Intent mAboutUs = new Intent(SecurityAddRoom.this, RoomSelector.class);
-                            startActivity(mAboutUs);
-                        } else if (id == R.id.nav_security) {
-                            // Goes to Security Activity
-                            Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
-                            startActivity(security);
-                        } else if (id == R.id.nav_settings) {
-                            // Goes to Settings Page
-                            Intent settings = new Intent(getApplicationContext(), Settings.class);
-                            startActivity(settings);
-                        } else if (id == R.id.nav_aboutus) {
-                            // Displays the About Us page
-                            Intent mAboutUs = new Intent(SecurityAddRoom.this, AboutUs.class);
-                            startActivity(mAboutUs);
-
-                        } else if (id == R.id.nav_logout) {
-                            // Logs out and displays the Log In Screen
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
-                        } else if (id == R.id.nav_exit) {
-                            finishAffinity();
-                        }
-
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }});
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +49,8 @@ public class SecurityAddRoom extends AppCompatActivity {
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
                     DatabaseReference newRoom = dbRef.push();
                     newRoom.setValue(new RoomDatastructure(name, 0,0,true,false, accessLevel));
-//                    dbRef.child(name).setValue(new RoomDatastructure(name, 0, 0, true, false, accessLevel));
+                    Toast toast = Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG);
+                    toast.show();
                     finish();
                 }
             }
@@ -99,11 +61,7 @@ public class SecurityAddRoom extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
+                finish();
                 return true;
         }
 
@@ -111,14 +69,16 @@ public class SecurityAddRoom extends AppCompatActivity {
     }
 
     private void getElements() {
-        nameInput = findViewById(R.id.update_security_name_input);
-        accessLevelInput = findViewById(R.id.update_access_level_input);
+        nameInput = findViewById(R.id.security_room_name_input);
+        accessLevelInput = findViewById(R.id.security_room_access_level_input);
         submitButton = findViewById(R.id.add_security_room_button);
     }
 
     private void getDatabase() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
     }
 
     private boolean validateData() {

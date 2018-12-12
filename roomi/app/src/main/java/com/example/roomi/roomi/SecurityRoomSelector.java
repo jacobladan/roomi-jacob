@@ -73,65 +73,13 @@ public class SecurityRoomSelector extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        int id = menuItem.getItemId();
-
-                        if (id == R.id.nav_home) {
-
-                            // Goes to Room Selector
-                            Intent myIntent = new Intent(getApplicationContext(), RoomSelector.class);
-                            startActivity(myIntent);
-
-                        } else if (id == R.id.nav_security) {
-
-                            // Goes to Security Activity
-                            Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
-                            startActivity(security);
-
-                        } else if (id == R.id.nav_settings) {
-
-                            // Goes to Settings Page
-                            Intent settings = new Intent(getApplicationContext(), Settings.class);
-                            startActivity(settings);
-
-                        } else if (id == R.id.nav_aboutus) {
-
-                            // Goes to About Us Page
-                            Intent mAboutUs = new Intent(getApplicationContext(), AboutUs.class);
-                            startActivity(mAboutUs);
-
-                        } else if (id == R.id.nav_logout) {
-
-                            // Logs out and displays the Log In Screen
-                            mAuth.signOut();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-
-                        } else if (id == R.id.nav_exit) {
-                            finishAffinity();
-                        }
-
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }});
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
+                finish();
                 return true;
         }
 
@@ -140,8 +88,8 @@ public class SecurityRoomSelector extends AppCompatActivity {
 
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("rooms");
         dbUserRef = database.getReference("users/" + mAuth.getUid());
+        dbRef = database.getReference("users/" + mAuth.getCurrentUser().getUid() + "/rooms");
     }
 
     private void findViews() {
@@ -246,7 +194,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
         addSecurityRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SecurityRoomSelector.this, AddRoom.class);
+                Intent intent = new Intent(SecurityRoomSelector.this, SecurityAddRoom.class);
                 startActivity(intent);
             }
         });

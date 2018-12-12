@@ -57,7 +57,7 @@
             android:textColor="@color/colorText" />
 
         <TextView
-            android:id="@+id/security_room_access_level_input"
+            android:id="@+id/security_room_access_level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -69,7 +69,7 @@
             android:textSize="22sp" />
 
         <EditText
-            android:id="@+id/security_room_access_level"
+            android:id="@+id/security_room_access_level_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

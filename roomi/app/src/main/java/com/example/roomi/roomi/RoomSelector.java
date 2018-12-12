@@ -55,11 +55,8 @@ public class RoomSelector extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         setTitle(R.string.home);
-        getDatabase();
-        retrieveData();
 
         mAuth = FirebaseAuth.getInstance();
-
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -134,7 +131,7 @@ public class RoomSelector extends AppCompatActivity {
 
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
     }
 
     private void retrieveData() {

@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PersonnelSettings extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
     private EditText nameInput;
     private EditText accessLevelInput;
     private EditText avatarColourInput;
@@ -33,6 +34,7 @@ public class PersonnelSettings extends AppCompatActivity {
     private Bundle extras;
     private String nameVal;
     private Button submitButton;
+    private String key;
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
@@ -43,22 +45,20 @@ public class PersonnelSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personnel_settings);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
         extras = getIntent().getExtras();
         nameVal = extras.getString("name");
-
-//        TODO Hint in text fields not working
-//        nameInput.setHint("Current: " + nameVal);
-//        accessLevelInput.setHint("Current: " + extras.getInt("accessLevel"));
-//        avatarColourInput.setHint("Current: " + extras.getInt("avatarColour"));
-
+        key = extras.getString("key");
         setTitle(extras.getString("name"));
         findViews();
         getDatabase();
 
+        nameInput.setHint("Current: "  + nameVal);
+        accessLevelInput.setHint("Current: " + extras.getInt("accessLevel"));
+        avatarColourInput.setHint("Current: " + extras.getString("avatarColour"));
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_delete);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,37 +67,40 @@ public class PersonnelSettings extends AppCompatActivity {
                     String name = nameInput.getText().toString();
                     String avatarColour = avatarColourInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
-                    dbRef.child("name").setValue(name);
-                    dbRef.child("accessLevel").setValue(accessLevel);
-                    dbRef.child("avatarColour").setValue(avatarColour);
+                    dbRef.child(key).setValue(new PersonnelDatastructure(name, avatarColour, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), "Updated " + nameVal, Toast.LENGTH_LONG);
                     toast.show();
                     finish();
                 }
             }
         });
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                dbRef.child(key).removeValue();
+                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
+                toast.show();
                 finish();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     private void getDatabase() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("personnel/" + nameVal);
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/personnel");
     }
 
     private void findViews() {
-        accessLevelInput = findViewById(R.id.update_access_level_input);
-        nameInput = findViewById(R.id.update_security_name_input);
-        avatarColourInput = findViewById(R.id.update_avatar_colour_input);
+        accessLevelInput = findViewById(R.id.update_personnel_access_level_input);
+        nameInput = findViewById(R.id.update_personnel_name_input);
+        avatarColourInput = findViewById(R.id.update_personnel_avatar_colour_input);
         submitButton = findViewById(R.id.update_personnel_button);
     }
 
@@ -115,7 +118,6 @@ public class PersonnelSettings extends AppCompatActivity {
 
         if (name.length() < 0 || name.length() > 25) return false;
 
-        //TODO Validate avatarColour more than length???
         if (avatarColour.length() < 0 || name.length() > 25) return false;
         if (accessLevel < 0 || accessLevel > 5) return false;
         return true;
