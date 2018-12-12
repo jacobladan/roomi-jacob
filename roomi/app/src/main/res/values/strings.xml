@@ -19,8 +19,8 @@
     <string name="living_room">living room</string>
     <string name="plus" translatable="false">+</string>
     <string name="title_activity_hamburger_menu" translatable="false">HamburgerMenu</string>
-    <string name="rooms">rooms</string>
-    <string name="about_us">about us</string>
+    <string name="rooms">Rooms</string>
+    <string name="about_us">About Us</string>
     <string name="menu_home">Home</string>
     <string name="menu_security">Security</string>
     <string name="menu_information">Information</string>

@@ -29,11 +29,13 @@ public class PersonnelAdd extends AppCompatActivity {
     private EditText accessLevelInput;
     private EditText avatarColourInput;
     private Button submitButton;
+    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personnel_add);
+        getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -94,6 +96,13 @@ public class PersonnelAdd extends AppCompatActivity {
                 }
             }
         });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -112,6 +121,7 @@ public class PersonnelAdd extends AppCompatActivity {
         accessLevelInput = findViewById(R.id.add_access_level_input);
         avatarColourInput = findViewById(R.id.add_avatar_colour_input);
         submitButton = findViewById(R.id.add_personnel_button);
+        cancelButton = findViewById(R.id.cancel_add_personnel_button);
     }
 
     private void getDatabase() {

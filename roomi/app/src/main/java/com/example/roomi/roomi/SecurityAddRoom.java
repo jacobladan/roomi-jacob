@@ -28,11 +28,13 @@ public class SecurityAddRoom extends AppCompatActivity {
     private EditText nameInput;
     private EditText accessLevelInput;
     private Button submitButton;
+    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_add_room);
+        getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
         setTitle(R.string.add_a_room);
         getDatabase();
@@ -55,6 +57,13 @@ public class SecurityAddRoom extends AppCompatActivity {
                 }
             }
         });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -72,6 +81,7 @@ public class SecurityAddRoom extends AppCompatActivity {
         nameInput = findViewById(R.id.security_room_name_input);
         accessLevelInput = findViewById(R.id.security_room_access_level_input);
         submitButton = findViewById(R.id.add_security_room_button);
+        cancelButton = findViewById(R.id.cancel_add_security_room_button);
     }
 
     private void getDatabase() {

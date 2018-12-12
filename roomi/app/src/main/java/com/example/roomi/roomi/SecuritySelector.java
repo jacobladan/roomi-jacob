@@ -47,6 +47,7 @@ public class SecuritySelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("Security");
         setContentView(R.layout.activity_security_selector);
+        getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 

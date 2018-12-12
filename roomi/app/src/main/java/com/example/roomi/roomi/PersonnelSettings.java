@@ -35,6 +35,7 @@ public class PersonnelSettings extends AppCompatActivity {
     private String nameVal;
     private Button submitButton;
     private String key;
+    private Button cancelButton;
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
@@ -44,6 +45,7 @@ public class PersonnelSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personnel_settings);
+        getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
         extras = getIntent().getExtras();
         nameVal = extras.getString("name");
@@ -74,6 +76,13 @@ public class PersonnelSettings extends AppCompatActivity {
                 }
             }
         });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -102,6 +111,7 @@ public class PersonnelSettings extends AppCompatActivity {
         nameInput = findViewById(R.id.update_personnel_name_input);
         avatarColourInput = findViewById(R.id.update_personnel_avatar_colour_input);
         submitButton = findViewById(R.id.update_personnel_button);
+        cancelButton = findViewById(R.id.cancel_update_personnel_button);
     }
 
     private boolean validateData() {

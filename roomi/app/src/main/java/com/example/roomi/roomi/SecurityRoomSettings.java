@@ -34,6 +34,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
     private String nameVal;
     private Button submitButton;
     private String key;
+    private Button cancelButton;
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
@@ -43,6 +44,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_room_settings);
+        getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
         extras = getIntent().getExtras();
         nameVal = extras.getString("name");
@@ -76,6 +78,13 @@ public class SecurityRoomSettings extends AppCompatActivity {
             }
         });
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @Override
@@ -103,6 +112,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
         accessLevelInput = findViewById(R.id.update_access_level_input);
         nameInput = findViewById(R.id.update_security_name_input);
         submitButton = findViewById(R.id.update_security_room_button);
+        cancelButton = findViewById(R.id.cancel_update_security_room_button);
     }
 
     private boolean validateData() {

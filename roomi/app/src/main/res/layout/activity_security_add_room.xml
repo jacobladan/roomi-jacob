@@ -7,95 +7,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    tools:openDrawer="start"
-    android:background="@drawable/gradient">
+    tools:openDrawer="start" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-
-        <TextView
-            android:id="@+id/add_security_room"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="@string/add_security_room"
-            android:textSize="22sp"
-            android:textColor="@color/colorText"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-        <TextView
-            android:id="@+id/security_room_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginBottom="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/name"
-            android:textColor="@color/colorText"
-            android:textSize="22sp" />
+            <TextView
+                android:id="@+id/add_security_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/add_security_room"
+                android:textSize="22sp"
+                android:textColor="@color/colorText"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginBottom="8dp"/>
 
-        <EditText
-            android:id="@+id/security_room_name_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/element_background_light"
-            android:ems="10"
-            android:hint="@string/name"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/colorText" />
+            <TextView
+                android:id="@+id/security_room_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/name"
+                android:textColor="@color/colorText"
+                android:textSize="22sp" />
 
-        <TextView
-            android:id="@+id/security_room_access_level"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginBottom="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/add_access_level_0_5"
-            android:textColor="@color/colorText"
-            android:textSize="22sp" />
+            <EditText
+                android:id="@+id/security_room_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/element_background_light"
+                android:ems="10"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/colorText" />
 
-        <EditText
-            android:id="@+id/security_room_access_level_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/element_background_light"
-            android:ems="10"
-            android:hint="@string/add_access_level_0_5"
-            android:inputType="number"
-            android:padding="10dp"
-            android:textColor="@color/colorText" />
+            <TextView
+                android:id="@+id/security_room_access_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/add_access_level_0_5"
+                android:textColor="@color/colorText"
+                android:textSize="22sp" />
 
-        <Button
-            android:id="@+id/add_security_room_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:width="100dp"
-            android:background="@drawable/element_background_dark"
-            android:text="@string/submit"
-            android:textAllCaps="false"
-            android:textColor="@color/colorText"
-            android:textSize="20sp" />
+            <EditText
+                android:id="@+id/security_room_access_level_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/element_background_light"
+                android:ems="10"
+                android:hint="@string/add_access_level_0_5"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textColor="@color/colorText" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="36dp"
+                android:gravity="center_horizontal" >
+
+                <Button
+                    android:id="@+id/add_security_room_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="50dp"
+                    android:width="100dp"
+                    android:background="@drawable/element_background_dark"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorText"
+                    android:textSize="20sp"
+                    android:layout_marginEnd="25dp"/>
+
+                <Button
+                    android:id="@+id/cancel_add_security_room_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"
+                    android:background="@drawable/element_background_dark"
+                    android:textAllCaps="false"
+                    android:width="100dp"
+                    android:textColor="@color/cancelText"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

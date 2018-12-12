@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
     private TextView fullNameMenu, emailMenu;
     private NavigationView navigationView;
     private View headerView;
+    private ProgressBar progressBar;
 
     private DatabaseReference dbUserRef;
     private User user;
@@ -58,6 +60,8 @@ public class SecurityRoomSelector extends AppCompatActivity {
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         setTitle(R.string.rooms);
 
@@ -104,6 +108,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 fetchRooms(dataSnapshot);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
