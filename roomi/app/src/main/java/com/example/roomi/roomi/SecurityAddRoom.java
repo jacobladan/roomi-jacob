@@ -50,7 +50,7 @@ public class SecurityAddRoom extends AppCompatActivity {
                     String name = nameInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
                     DatabaseReference newRoom = dbRef.push();
-                    newRoom.setValue(new RoomDatastructure(name, 0,0,true,false, accessLevel));
+                    newRoom.setValue(new SecurityRoomDataStructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG);
                     toast.show();
                     finish();
@@ -88,7 +88,7 @@ public class SecurityAddRoom extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms/security");
     }
 
     private boolean validateData() {

@@ -165,7 +165,6 @@ public class PersonnelSelector extends AppCompatActivity {
         for (PersonnelDatastructure personnel: personnelList) {
             final String key = keyList[i];
             final String name = personnel.getName();
-            final String avatarColour = personnel.getAvatarColour();
             final int accessLevel = personnel.getaccessLevel();
             final String accessInfo = "Access Level: " + accessLevel;
 
@@ -179,7 +178,6 @@ public class PersonnelSelector extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(PersonnelSelector.this, PersonnelSettings.class);
                     intent.putExtra("name", name);
-                    intent.putExtra("avatarColour", avatarColour);
                     intent.putExtra("accessLevel", accessLevel);
                     intent.putExtra("key", key);
                     startActivity(intent);

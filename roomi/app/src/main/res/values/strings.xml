@@ -88,4 +88,6 @@
     <string name="change_email">Change email</string>
     <string name="change_password">Change Password</string>
     <string name="delete_account">Delete Account</string>
+    <string name="colour">Colour</string>
+    <string name="update_personnel_settings">Update Personnel Settings</string>
 </resources>

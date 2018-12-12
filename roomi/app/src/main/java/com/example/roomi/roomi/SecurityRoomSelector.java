@@ -95,7 +95,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
         dbUserRef = database.getReference("users/" + mAuth.getUid());
-        dbRef = database.getReference("users/" + mAuth.getCurrentUser().getUid() + "/rooms");
+        dbRef = database.getReference("users/" + mAuth.getCurrentUser().getUid() + "/rooms/security");
     }
 
     private void findViews() {
@@ -142,12 +142,12 @@ public class SecurityRoomSelector extends AppCompatActivity {
     }
 
     private void fetchRooms(DataSnapshot dataSnapshot) {
-        List<RoomDatastructure> roomList = new ArrayList<>();
+        List<SecurityRoomDataStructure> roomList = new ArrayList<>();
         keyList = new String[(int) dataSnapshot.getChildrenCount()];
         i = 0;
         roomList.clear();
         for (DataSnapshot roomSnapShot: dataSnapshot.getChildren()) {
-            RoomDatastructure room = roomSnapShot.getValue(RoomDatastructure.class);
+            SecurityRoomDataStructure room = roomSnapShot.getValue(SecurityRoomDataStructure.class);
             keyList[i] = roomSnapShot.getKey();
             roomList.add(room);
             i++;
@@ -155,14 +155,14 @@ public class SecurityRoomSelector extends AppCompatActivity {
         generateRoomButtons(roomList, keyList);
     }
 
-    private void generateRoomButtons(List<RoomDatastructure> roomList, final String[] keyList) {
+    private void generateRoomButtons(List<SecurityRoomDataStructure> roomList, final String[] keyList) {
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(900, 300);
         buttonParams.setMargins(0, 0, 0, 50);
 
-        for (RoomDatastructure room: roomList) {
+        for (SecurityRoomDataStructure room: roomList) {
             final String key = keyList[i];
             final String name = room.getName();
             final int accessLevel = room.getAccessLevel();

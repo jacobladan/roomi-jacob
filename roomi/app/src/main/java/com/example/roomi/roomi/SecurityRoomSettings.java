@@ -1,11 +1,13 @@
 package com.example.roomi.roomi;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +40,6 @@ public class SecurityRoomSettings extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
-    RoomDatastructure data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
-                    dbRef.child(key).setValue(new RoomDatastructure(name, 0, 0, true, false, accessLevel));
+                    dbRef.child(key).setValue(new SecurityRoomDataStructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), "Updated " + name, Toast.LENGTH_LONG);
                     toast.show();
                     finish();
@@ -91,11 +92,27 @@ public class SecurityRoomSettings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                dbRef.child(key).removeValue();
-                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
-                toast.show();
-                finish();
-                return true;
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                dbRef.child(key).removeValue();
+                                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
+                                toast.show();
+                                finish();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure? This cannot be undone").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -105,7 +122,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms/security");
     }
 
     private void findViews() {

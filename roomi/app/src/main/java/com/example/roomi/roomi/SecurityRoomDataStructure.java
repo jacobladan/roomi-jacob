@@ -1,18 +1,8 @@
 package com.example.roomi.roomi;
 
-// The data structure for for working with personal
-public class PersonnelDatastructure {
+public class SecurityRoomDataStructure {
     private String name;
     private int accessLevel;
-
-    public PersonnelDatastructure() {
-
-    }
-
-    public PersonnelDatastructure(String name, int accessLevel) {
-        this.name = name;
-        this.accessLevel = accessLevel;
-    }
 
     public String getName() {
         return name;
@@ -30,13 +20,18 @@ public class PersonnelDatastructure {
         this.name = sb.toString().trim();
     }
 
-
-    public int getaccessLevel() {
+    public int getAccessLevel() {
         return accessLevel;
     }
 
-    public void setaccessLevel(int accessLevel) {
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
+    }
+
+    public SecurityRoomDataStructure() {}
+
+    public SecurityRoomDataStructure(String name, int accessLevel) {
+        this.name = name;
         this.accessLevel = accessLevel;
     }
 }
-

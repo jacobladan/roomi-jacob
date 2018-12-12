@@ -1,7 +1,9 @@
 package com.example.roomi.roomi;
 
 
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +35,6 @@ public class RoomSettings extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
-    RoomDatastructure data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class RoomSettings extends AppCompatActivity {
                     String name = nameInput.getText().toString();
                     int temperature = Integer.parseInt(temperatureInput.getText().toString());
                     int brightness = Integer.parseInt(brightnessInput.getText().toString());
-                    dbRef.child(key).setValue(new RoomDatastructure(name, temperature, brightness, false, true, 0));
+                    dbRef.child(key).setValue(new HomeRoomDataStructure(name, temperature, brightness));
                     Toast toast = Toast.makeText(getApplicationContext(), "Updated " + name, Toast.LENGTH_LONG);
                     toast.show();
                     finish();
@@ -88,11 +89,27 @@ public class RoomSettings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                dbRef.child(key).removeValue();
-                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
-                toast.show();
-                finish();
-                return true;
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                dbRef.child(key).removeValue();
+                                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
+                                toast.show();
+                                finish();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure? This cannot be undone").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -102,7 +119,7 @@ public class RoomSettings extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms/home");
     }
 
     private void findViews() {

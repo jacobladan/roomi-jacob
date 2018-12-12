@@ -75,4 +75,6 @@
     <string name="french">Français</string>
     <string name="change_language_text">Changer de langue</string>
     <string name="change_email">Changer l\'email</string>
+    <string name="colour">Couleur</string>
+    <string name="update_personnel_settings">" Mettre à jour les paramètres du personnel"</string>
 </resources>

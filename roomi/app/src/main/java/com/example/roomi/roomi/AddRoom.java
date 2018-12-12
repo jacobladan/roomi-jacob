@@ -53,7 +53,7 @@ public class AddRoom extends AppCompatActivity {
                     int brightness = Integer.parseInt(brightnessInput.getText().toString());
 
                     DatabaseReference newRoom = dbRef.push();
-                    newRoom.setValue(new RoomDatastructure(name, temperature, brightness, false, true, 0));
+                    newRoom.setValue(new HomeRoomDataStructure(name, temperature, brightness));
                     Toast toast = Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG);
                     toast.show();
                     finish();
@@ -92,7 +92,7 @@ public class AddRoom extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser fbUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms/home");
     }
 
     private boolean validateData() {

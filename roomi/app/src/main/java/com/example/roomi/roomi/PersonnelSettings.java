@@ -1,11 +1,13 @@
 package com.example.roomi.roomi;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +31,6 @@ public class PersonnelSettings extends AppCompatActivity {
 
     private EditText nameInput;
     private EditText accessLevelInput;
-    private EditText avatarColourInput;
 
     private Bundle extras;
     private String nameVal;
@@ -39,7 +40,6 @@ public class PersonnelSettings extends AppCompatActivity {
 
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
-    RoomDatastructure data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,6 @@ public class PersonnelSettings extends AppCompatActivity {
 
         nameInput.setHint("Current: "  + nameVal);
         accessLevelInput.setHint("Current: " + extras.getInt("accessLevel"));
-        avatarColourInput.setHint("Current: " + extras.getString("avatarColour"));
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -67,9 +66,8 @@ public class PersonnelSettings extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
-                    String avatarColour = avatarColourInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
-                    dbRef.child(key).setValue(new PersonnelDatastructure(name, avatarColour, accessLevel));
+                    dbRef.child(key).setValue(new PersonnelDatastructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), "Updated " + nameVal, Toast.LENGTH_LONG);
                     toast.show();
                     finish();
@@ -89,11 +87,27 @@ public class PersonnelSettings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                dbRef.child(key).removeValue();
-                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
-                toast.show();
-                finish();
-                return true;
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                dbRef.child(key).removeValue();
+                                Toast toast = Toast.makeText(getApplicationContext(), "Deleted " + nameVal, Toast.LENGTH_LONG);
+                                toast.show();
+                                finish();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure? This cannot be undone").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -109,7 +123,6 @@ public class PersonnelSettings extends AppCompatActivity {
     private void findViews() {
         accessLevelInput = findViewById(R.id.update_personnel_access_level_input);
         nameInput = findViewById(R.id.update_personnel_name_input);
-        avatarColourInput = findViewById(R.id.update_personnel_avatar_colour_input);
         submitButton = findViewById(R.id.update_personnel_button);
         cancelButton = findViewById(R.id.cancel_update_personnel_button);
     }
@@ -117,7 +130,6 @@ public class PersonnelSettings extends AppCompatActivity {
     private boolean validateData() {
         int accessLevel = 0;
         String name = nameInput.getText().toString();
-        String avatarColour = avatarColourInput.getText().toString();
 
 
         try {
@@ -128,7 +140,6 @@ public class PersonnelSettings extends AppCompatActivity {
 
         if (name.length() < 0 || name.length() > 25) return false;
 
-        if (avatarColour.length() < 0 || name.length() > 25) return false;
         if (accessLevel < 0 || accessLevel > 5) return false;
         return true;
     }

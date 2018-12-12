@@ -26,7 +26,6 @@ public class PersonnelAdd extends AppCompatActivity {
 
     private EditText nameInput;
     private EditText accessLevelInput;
-    private EditText avatarColourInput;
     private Button submitButton;
     private Button cancelButton;
 
@@ -48,10 +47,9 @@ public class PersonnelAdd extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
-                    String avatarColour = avatarColourInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
                     DatabaseReference newPersonnel = dbRef.push();
-                    newPersonnel.setValue(new PersonnelDatastructure(name, avatarColour, accessLevel));
+                    newPersonnel.setValue(new PersonnelDatastructure(name, accessLevel));
                     finish();
                 }
             }
@@ -79,7 +77,6 @@ public class PersonnelAdd extends AppCompatActivity {
     private void getElements() {
         nameInput = findViewById(R.id.add_room_name_input);
         accessLevelInput = findViewById(R.id.add_access_level_input);
-        avatarColourInput = findViewById(R.id.add_avatar_colour_input);
         submitButton = findViewById(R.id.add_personnel_button);
         cancelButton = findViewById(R.id.cancel_add_personnel_button);
     }
@@ -94,7 +91,6 @@ public class PersonnelAdd extends AppCompatActivity {
     private boolean validateData() {
         String name = nameInput.getText().toString();
 
-        String avatarColour = nameInput.getText().toString();
         int accessLevel = 0;
 
         try {
@@ -106,7 +102,6 @@ public class PersonnelAdd extends AppCompatActivity {
         if (name.length() < 3 || name.length() > 25) return false;
 
         if (accessLevel < 0 || accessLevel > 5) return false;
-//        TODO: Add validity for avatar colour
         return true;
     }
 }

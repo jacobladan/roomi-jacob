@@ -41,7 +41,6 @@ public class RoomSelector extends AppCompatActivity {
     private String[] keyList;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
-    private User user;
     private FirebaseUser fbUser;
     private ProgressBar progressBar;
 
@@ -136,7 +135,7 @@ public class RoomSelector extends AppCompatActivity {
 
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
-        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms");
+        dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms/home");
     }
 
     private void retrieveData() {
@@ -155,12 +154,12 @@ public class RoomSelector extends AppCompatActivity {
     }
 
     private void fetchRooms(DataSnapshot dataSnapshot) {
-        List<RoomDatastructure> roomList = new ArrayList<>();
+        List<HomeRoomDataStructure> roomList = new ArrayList<>();
         keyList = new String[(int) dataSnapshot.getChildrenCount()];
         i = 0;
         roomList.clear();
         for (DataSnapshot roomSnapShot: dataSnapshot.getChildren()) {
-            RoomDatastructure room = roomSnapShot.getValue(RoomDatastructure.class);
+            HomeRoomDataStructure room = roomSnapShot.getValue(HomeRoomDataStructure.class);
             keyList[i] = roomSnapShot.getKey();
             roomList.add(room);
             i++;
@@ -168,14 +167,14 @@ public class RoomSelector extends AppCompatActivity {
         generateRoomButtons(roomList, keyList);
     }
 
-    private void generateRoomButtons(List<RoomDatastructure> roomList, final String[] keyList) {
+    private void generateRoomButtons(List<HomeRoomDataStructure> roomList, final String[] keyList) {
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(900, 300);
         buttonParams.setMargins(0, 0, 0, 50);
 
-        for (RoomDatastructure room: roomList) {
+        for (HomeRoomDataStructure room: roomList) {
             final String key = keyList[i];
             final String name = room.getName();
             final int temperature = room.getTemperature();
