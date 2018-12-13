@@ -21,18 +21,6 @@
             android:paddingRight="16dp" >
 
             <TextView
-                android:id="@+id/room_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="28dp"
-                android:text="@string/add_security_room"
-                android:textColor="@color/colorText"
-                android:textSize="26sp" />
-
-            <TextView
                 android:id="@+id/security_room_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

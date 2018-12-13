@@ -179,8 +179,8 @@ public class RoomSelector extends AppCompatActivity {
             final String name = room.getName();
             final int temperature = room.getTemperature();
             final int brightness = room.getBrightness();
-            final String brightnessInfo = "Brightness: " + brightness;
-            final String temperatureInfo = "Temperature: " + temperature;
+            final String brightnessInfo = "Brightness: " + brightness + "%";
+            final String temperatureInfo = "Temp: " + temperature + "°C";
 
             LinearLayout roomContainer = new LinearLayout(this);
             roomContainer.setBackgroundResource(R.drawable.element_background_dark);

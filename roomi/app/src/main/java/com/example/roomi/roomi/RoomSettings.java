@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class RoomSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_settings);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Bundle extras;
 
@@ -48,11 +50,11 @@ public class RoomSettings extends AppCompatActivity {
         nameVal = extras.getString("name");
         key = extras.getString("key");
 
-        setTitle(nameVal);
+        setTitle("Home: " + nameVal);
         findViews();
         getDatabase();
 
-        nameView.setText(getString(R.string.update_settings));
+        nameView.setText(getString(R.string.update_room_settings));
         nameInput.setHint("Current: " + nameVal);
         temperatureInput.setHint("Current: " + extras.getInt("temperature") + getString(R.string.degrees_cel));
         brightnessInput.setHint("Current: " + extras.getInt("brightness") + getString(R.string.percent));

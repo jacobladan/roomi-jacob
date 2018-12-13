@@ -65,7 +65,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
-        setTitle(R.string.rooms);
+        setTitle(R.string.security_rooms);
 
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));

@@ -61,10 +61,10 @@
     <string name="jacob_name" translatable="false">Jacob Ladan</string>
     <string name="jacob_description">Jacob is going to be a software developer when he grows up. Also he likes sushi.</string>
     <string name="marko_name" translatable="false">Marko Javorac</string>
-    <string name="marko_description" translatable="false">Marko is going to write his own description.</string>
+    <string name="marko_description">Marko is a student at Humber College in Toronto  studying Computer Engineering. He plans to take over the world after birthing advance general AI.</string>
     <string name="placeholder_text">placeholder</string>
     <string name="select_a_room">Select a Room</string>
-    <string name="add_a_room">Add a Room</string>
+    <string name="add_a_room">Home: Add a Room</string>
     <string name="name">Name</string>
     <string name="temperature">Temperature (15–25°C)</string>
     <string name="brightness">Brightness (0–100%)</string>
@@ -73,14 +73,14 @@
     <string name="degrees_cel" translatable="false">°C</string>
     <string name="percent" translatable="false">%</string>
     <string name="cancel">Cancel</string>
-    <string name="update_settings">Update Settings</string>
+    <string name="update_settings">Home: Update Settings</string>
     <string name="settings">Settings</string>
     <string name="add_access_level_0_5">Access Level (0-5)</string>
     <string name="select_a_person">Select a person</string>
     <string name="avatar_colour">Avatar Colour</string>
     <string name="update_security_settings">Update Security Settings</string>
     <string name="add_security_room">Add Security Room</string>
-    <string name="add_a_person">Add a person</string>
+    <string name="add_a_person">Add a Person</string>
     <string name="personnel">Personnel</string>
     <string name="english">English</string>
     <string name="french">French</string>
@@ -90,4 +90,8 @@
     <string name="delete_account">Delete Account</string>
     <string name="colour">Colour</string>
     <string name="update_personnel_settings">Update Personnel Settings</string>
+    <string name="security_rooms">Security: Rooms</string>
+    <string name="security_add_room">Security: Add Room</string>
+    <string name="update_room_settings">Update Room Settings</string>
+    <string name="welcome_to_roomi">Welcome to roomi!</string>
 </resources>

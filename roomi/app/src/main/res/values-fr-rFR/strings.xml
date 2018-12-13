@@ -53,14 +53,14 @@
     <string name="jacob_description">Jacob sera un développeur de logiciels quand il sera grand. Aussi, il aime les sushis.</string>
     <string name="placeholder_text">espace réservé</string>
     <string name="select_a_room">Sélectionnez une pièce</string>
-    <string name="add_a_room">Ajouter une chambre</string>
+    <string name="add_a_room">Accueil: Ajouter une chambre</string>
     <string name="name">Nom</string>
     <string name="temperature">Température (15-25°C)</string>
     <string name="brightness">Luminosité (0-100%)</string>
     <string name="temperature_label">Température:</string>
     <string name="brightness_label">Luminosité:</string>
     <string name="cancel">Annuler</string>
-    <string name="update_settings">Mettre à jour les paramètres</string>
+    <string name="update_settings">Accueil: Paramètres de mise à jour</string>
     <string name="settings">Réglages</string>
     <string name="change_password">Changer le mot de passe</string>
     <string name="delete_account">Supprimer le compte</string>
@@ -77,4 +77,9 @@
     <string name="change_email">Changer l\'email</string>
     <string name="colour">Couleur</string>
     <string name="update_personnel_settings">" Mettre à jour les paramètres du personnel"</string>
+    <string name="security_rooms">Sécurité: Chambres</string>
+    <string name="security_add_room">Sécurité: Ajouter une pièce</string>
+    <string name="update_room_settings">Mettre à jour les paramètres de la salle</string>
+    <string name="marko_description">Marko est un étudiant au Collège Humber de Toronto qui étudie en génie informatique. Il projette de conquérir le monde après la naissance de l’Alliance générale avancée.</string>
+    <string name="welcome_to_roomi">Bienvenue chez roomi!</string>
 </resources>

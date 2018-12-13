@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,8 +36,9 @@ public class SecurityAddRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_add_room);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        setTitle(R.string.add_a_room);
+        setTitle(R.string.security_add_room);
         getDatabase();
         getElements();
 
@@ -92,17 +94,25 @@ public class SecurityAddRoom extends AppCompatActivity {
     }
 
     private boolean validateData() {
-        String name = nameInput.getText().toString();
-        int accessLevel = 0;
+        int nameLen = nameInput.getText().toString().length();
+        int accessLevel = -1;
 
-        try {
-            accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
-        } catch (Exception e) {
-            Log.d("IntParse", e.toString());
+        if (!accessLevelInput.getText().toString().equals("")) {
+            try {
+                accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
+            } catch (Exception e) {
+                Log.d("IntParse1", e.toString());
+            }
         }
 
-        if (name.length() < 3 || name.length() > 25) return false;
-        if (accessLevel < 0 || accessLevel > 5) return false;
+        if (nameLen <= 0 || nameLen > 25) {
+            nameInput.setError("Please enter a name between 1 and 25 characters");
+            return false;
+        }
+        if (accessLevel < 0 || accessLevel > 5) {
+            accessLevelInput.setError("Please enter a valid access level");
+            return false;
+        }
         return true;
     }
 }

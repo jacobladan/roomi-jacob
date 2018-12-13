@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_room_settings);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         extras = getIntent().getExtras();
         nameVal = extras.getString("name");
@@ -54,7 +56,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
         key = extras.getString("key");
         Log.d("KeyTest", key);
 
-        setTitle(nameVal);
+        setTitle("Security: " + nameVal);
         findViews();
         getDatabase();
 
@@ -133,18 +135,19 @@ public class SecurityRoomSettings extends AppCompatActivity {
     }
 
     private boolean validateData() {
-        int accessLevel = -1;
         int nameLen = nameInput.getText().toString().length();
+        Log.d("nameInput" , nameInput.getText().toString());
+        int accessLevel = -1;
 
         if (!accessLevelInput.getText().toString().equals("")) {
             try {
                 accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
             } catch (Exception e) {
-                Log.d("IntParse", e.toString());
+                Log.d("IntParse1", e.toString());
             }
         }
 
-        if (nameLen < 0 || nameLen > 25) {
+        if (nameLen <= 0 || nameLen > 25) {
             nameInput.setError("Please enter a name between 1 and 25 characters");
             return false;
         }
