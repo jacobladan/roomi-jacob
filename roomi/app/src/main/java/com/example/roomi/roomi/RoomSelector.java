@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,13 +37,18 @@ public class RoomSelector extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase database;
-    private DatabaseReference dbRef;
+    private DatabaseReference dbRef, dbUserRef;
     private int i;
     private String[] keyList;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseUser fbUser;
     private ProgressBar progressBar;
+
+    private User user;
+    private NavigationView navigationView;
+    private View headerView;
+    private TextView fullNameMenu, emailMenu;
 
     @Override
     protected void onStart() {
@@ -69,6 +75,7 @@ public class RoomSelector extends AppCompatActivity {
             finish();
         } else {
             fbUser = mAuth.getCurrentUser();
+            findViews();
             getDatabase();
             logoutListener();
             retrieveData();
@@ -133,9 +140,17 @@ public class RoomSelector extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void findViews() {
+        navigationView = findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
+        fullNameMenu = headerView.findViewById(R.id.fullNameUser);
+        emailMenu = headerView.findViewById(R.id.emailUser);
+    }
+
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
         dbRef = database.getReference("users/" + fbUser.getUid() + "/rooms/home");
+        dbUserRef = database.getReference("users/" + fbUser.getUid());
     }
 
     private void retrieveData() {
@@ -149,6 +164,27 @@ public class RoomSelector extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d("roomi", "Data retrieval error...", databaseError.toException());
+            }
+        });
+
+        dbUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    fullNameMenu.setText(user.getFirstName() + " " + user.getLastName());
+                    emailMenu.setText(user.getEmail());
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Database access error!", Toast.LENGTH_SHORT).show();
             }
         });
     }

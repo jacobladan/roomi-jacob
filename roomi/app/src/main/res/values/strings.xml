@@ -93,5 +93,8 @@
     <string name="security_rooms">Security: Rooms</string>
     <string name="security_add_room">Security: Add Room</string>
     <string name="update_room_settings">Update Room Settings</string>
-    <string name="welcome_to_roomi">Welcome to roomi!</string>
+    <string name="security_selector">Security</string>
+    <string name="welcome_home">Welcome,</string>
+    <string name="save">Save</string>
+    <string name="welcome_to_roomi">Welcome to Roomi!</string>
 </resources>

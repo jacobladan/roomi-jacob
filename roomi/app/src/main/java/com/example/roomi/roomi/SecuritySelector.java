@@ -45,7 +45,7 @@ public class SecuritySelector extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Security");
+        setTitle(R.string.security_selector);
         setContentView(R.layout.activity_security_selector);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 

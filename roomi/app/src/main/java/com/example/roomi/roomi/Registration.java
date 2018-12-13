@@ -1,6 +1,7 @@
 package com.example.roomi.roomi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,7 +94,7 @@ public class Registration extends AppCompatActivity {
                         .addOnCompleteListener(Registration.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(Registration.this, "Welcome to roomi!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registration.this, R.string.welcome_to_roomi, Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
 
                                 if (!task.isSuccessful()) {

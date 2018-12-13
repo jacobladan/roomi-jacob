@@ -105,7 +105,7 @@
                         android:textColor="@color/colorText"
                         android:textAllCaps="false"
                         android:textSize="18sp"
-                        android:text="Save"/>
+                        android:text="@string/save"/>
 
                 </RadioGroup>
 

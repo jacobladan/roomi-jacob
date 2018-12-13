@@ -1,6 +1,8 @@
 package com.example.roomi.roomi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 
 public class Home extends AppCompatActivity {
 
@@ -36,6 +40,8 @@ public class Home extends AppCompatActivity {
     private DatabaseReference dbRef;
     private User user;
 
+    private String languageCode;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -45,22 +51,25 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        getWindow().setBackgroundDrawableResource(R.drawable.gradient);
-
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
 
         mAuth = FirebaseAuth.getInstance();
+        fbUser = mAuth.getCurrentUser();
 
-        if (mAuth.getCurrentUser() == null) {
+        if (fbUser == null) {
             startActivity(new Intent(Home.this, MainActivity.class));
             finish();
         } else {
-            fbUser = mAuth.getCurrentUser();
+            changeAppLanguage();
+
+            setContentView(R.layout.activity_home);
+            getWindow().setBackgroundDrawableResource(R.drawable.gradient);
+
+            mDrawerLayout = findViewById(R.id.drawer_layout);
+
+            ActionBar actionbar = getSupportActionBar();
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
+
             findViews();
             getDatabase();
             logoutListener();
@@ -150,6 +159,11 @@ public class Home extends AppCompatActivity {
         emailMenu = headerView.findViewById(R.id.emailUser);
     }
 
+    public void getFromSharedPreference() {
+        SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
+        languageCode = prefs.getString(fbUser.getEmail(), "en");
+    }
+
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
         dbRef = database.getReference("users/" + fbUser.getUid());
@@ -161,7 +175,7 @@ public class Home extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
                 if (user != null) {
-                    welcomeString.setText("Welcome, " + user.getFirstName());
+                    welcomeString.setText(getString(R.string.welcome_home) + " " + user.getFirstName());
                     fullNameMenu.setText(user.getFirstName() + " " + user.getLastName());
                     emailMenu.setText(user.getEmail());
                 } else {
@@ -177,6 +191,16 @@ public class Home extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Database access error!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void changeAppLanguage() {
+        getFromSharedPreference();
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
     private void logoutListener() {

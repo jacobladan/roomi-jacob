@@ -40,7 +40,7 @@ public class Settings extends AppCompatActivity {
     private NavigationView navigationView;
     private View headerView;
     private User user;
-    private TextView fullName, fullNameMenu, emailMenu;;
+    private TextView fullName, fullNameMenu, emailMenu;
     private Button emailChange, passwordChange, deleteAccount, save;
     private RadioButton english, french;
     private String languageCode;
@@ -55,6 +55,12 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
+
+        mAuth = FirebaseAuth.getInstance();
+        fbUser = mAuth.getCurrentUser();
+
+        getFromSharedPreference();
+
         setContentView(R.layout.activity_settings);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
         setTitle(R.string.settings);
@@ -65,9 +71,7 @@ public class Settings extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_hamburger);
 
-        getFromSharedPreference();
-        mAuth = FirebaseAuth.getInstance();
-        fbUser = mAuth.getCurrentUser();
+
 
         // No user logged in
         if (fbUser == null) {
@@ -153,7 +157,6 @@ public class Settings extends AppCompatActivity {
                             Intent myIntent = new Intent(getApplicationContext(), RoomSelector.class);
                             startActivity(myIntent);
                         } else if (id == R.id.nav_security) {
-
                             // Goes to Security Activity
                             Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
                             startActivity(security);
@@ -182,13 +185,13 @@ public class Settings extends AppCompatActivity {
 
     public void saveToSharedPreference() {
         SharedPreferences.Editor editor = getSharedPreferences("language", MODE_PRIVATE).edit();
-        editor.putString("lang", languageCode);
+        editor.putString(fbUser.getEmail(), languageCode);
         editor.apply();
     }
 
     public void getFromSharedPreference() {
         SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
-        languageCode = prefs.getString("lang", "en");
+        languageCode = prefs.getString(fbUser.getEmail(), "en");
     }
 
     @Override

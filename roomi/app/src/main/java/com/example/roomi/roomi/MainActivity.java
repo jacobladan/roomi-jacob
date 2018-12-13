@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Getting Auth Instance
         mAuth = FirebaseAuth.getInstance();
-        getFromSharedPreference();
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(MainActivity.this, Home.class));
             finish();
@@ -69,17 +68,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void saveToSharedPreference() {
-        SharedPreferences.Editor editor = getSharedPreferences("language", MODE_PRIVATE).edit();
-        editor.putString("lang", languageCode);
-        editor.apply();
-    }
-
-    public void getFromSharedPreference() {
-        SharedPreferences prefs = getSharedPreferences("language", MODE_PRIVATE);
-        languageCode = prefs.getString("lang", "en");
     }
 
     // Get views on the activity
