@@ -33,7 +33,6 @@ import java.util.List;
 
 public class SecurityRoomSelector extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
     private FirebaseDatabase database;
     private DatabaseReference dbRef;
     private int i;
@@ -41,13 +40,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
-    private TextView fullNameMenu, emailMenu;
-    private NavigationView navigationView;
-    private View headerView;
     private ProgressBar progressBar;
-
-    private DatabaseReference dbUserRef;
-    private User user;
 
     @Override
     protected void onStart() {
@@ -60,7 +53,6 @@ public class SecurityRoomSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_room_selector);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -74,7 +66,6 @@ public class SecurityRoomSelector extends AppCompatActivity {
             getDatabase();
             retrieveData();
             logoutListener();
-            findViews();
         }
 
         ActionBar actionBar = getSupportActionBar();
@@ -94,16 +85,9 @@ public class SecurityRoomSelector extends AppCompatActivity {
 
     private void getDatabase() {
         database = FirebaseDatabase.getInstance();
-        dbUserRef = database.getReference("users/" + mAuth.getUid());
         dbRef = database.getReference("users/" + mAuth.getCurrentUser().getUid() + "/rooms/security");
     }
 
-    private void findViews() {
-        navigationView = findViewById(R.id.nav_view);
-        headerView = navigationView.getHeaderView(0);
-        fullNameMenu = headerView.findViewById(R.id.fullNameUser);
-        emailMenu = headerView.findViewById(R.id.emailUser);
-    }
 
     private void retrieveData() {
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -116,27 +100,6 @@ public class SecurityRoomSelector extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.d("roomi", "Data retrieval error...", databaseError.toException());
-            }
-        });
-
-        dbUserRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
-                if (user != null) {
-                    fullNameMenu.setText(user.getFirstName() + " " + user.getLastName());
-                    emailMenu.setText(user.getEmail());
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Database access error!", Toast.LENGTH_SHORT).show();
             }
         });
     }
