@@ -21,8 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/email"
+                android:layout_marginTop="31dp"
+                android:text="@string/your_email"
                 android:textColor="@color/colorText"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +30,61 @@
 
             <EditText
                 android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/element_background_light"
+                android:ems="10"
+                android:hint="@string/your_email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email" />
+
+            <TextView
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/your_password"
+                android:textColor="@color/colorText"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/element_background_light"
+                android:ems="10"
+                android:hint="@string/your_password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password" />
+
+            <TextView
+                android:id="@+id/newEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/new_email"
+                android:textColor="@color/colorText"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/passwordEditText" />
+
+            <EditText
+                android:id="@+id/newEmailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -42,7 +97,7 @@
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/email" />
+                app:layout_constraintTop_toBottomOf="@+id/newEmail" />
 
             <TextView
                 android:id="@+id/reEnterEmail"
@@ -54,7 +109,7 @@
                 android:textColor="@color/colorText"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+                app:layout_constraintTop_toBottomOf="@+id/newEmailEditText" />
 
             <EditText
                 android:id="@+id/reEnterEmailEditText"

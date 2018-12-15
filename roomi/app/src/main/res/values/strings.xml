@@ -97,4 +97,5 @@
     <string name="welcome_home">Welcome,</string>
     <string name="save">Save</string>
     <string name="welcome_to_roomi">Welcome to Roomi!</string>
+    <string name="new_email">New Email</string>
 </resources>
