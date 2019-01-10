@@ -1,5 +1,5 @@
 ![logo](https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/Branding/roomi-branding/roomi--logo.png)
-<h1 align="center">Smart Home Automation and Security</h1><br><br>
+<h1 align="center">Smart Home Automation and Security</h1>
 <!--
 <h2 align="center">April 25 - Final Report</h2>
 <p>Placeholder</p>
@@ -43,6 +43,7 @@
 <h2 align="center">January 17 - Group Project Proposal</h2>
 <p>Placeholder</p>
 -->
+
 <h2>January 10 - Scheduling and Group Meetings</h2>
 <h3>Group Members</h3>
 <ul>
@@ -51,3 +52,4 @@
   <li>Jacob Ladan</li>
 </ul>
 <h3>Critical Path</h3>
+<img src="https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/critical-path.PNG">
