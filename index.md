@@ -44,7 +44,8 @@
 <p>Placeholder</p>
 -->
 
-<h2 align="center">January 10 - Scheduling and Group Meetings</h2>
+<h2>January 10 - Scheduling and Group Meetings</h2>
+<h4>Group Members</h4>
 <ul>
   <li>Marko Javorac</li>
   <li>Denald Demirxhui</li>
