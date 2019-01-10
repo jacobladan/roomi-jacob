@@ -45,11 +45,11 @@
 -->
 
 <h2>January 10 - Scheduling and Group Meetings</h2>
-<h4>Group Members</h4>
+<h3>Group Members</h3>
 <ul>
   <li>Marko Javorac</li>
   <li>Denald Demirxhui</li>
   <li>Jacob Ladan</li>
 </ul>
-<h4>Critical Path</h4>
+<h3>Critical Path</h3>
 <img src="https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/critical-path.PNG" alt="critical path"></img>
