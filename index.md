@@ -51,4 +51,4 @@
   <li>Jacob Ladan</li>
 </ul>
 <h3>Critical Path</h3>
-<img src="https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/critical-path.PNG" alt="critical path"></img>
+![CriticalPath](https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/critical-path.PNG)
