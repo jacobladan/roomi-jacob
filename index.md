@@ -51,3 +51,5 @@
   <li>Denald Demirxhui</li>
   <li>Jacob Ladan</li>
 </ul>
+<h4>Critical Path</h4>
+<img src="https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/critical-path.PNG" alt="critical path"></img>
