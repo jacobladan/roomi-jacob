@@ -34,7 +34,7 @@
 <h2 align="center">February 7 - Structure, Abstract, Indroduction, Declaration</h>
 <p>Placeholder</p>
 
-<h2 align="center">January 31 - Group Project Status Update</h>
+<h2 align="center">January 31 - Group Project Status Update</h2>
 <p>Placeholder</p>
 
 <h2 align="center">January 24 - App, Web, and Database SRS</h2>
@@ -43,7 +43,6 @@
 <h2 align="center">January 17 - Group Project Proposal</h2>
 <p>Placeholder</p>
 -->
-
 <h2>January 10 - Scheduling and Group Meetings</h2>
 <h3>Group Members</h3>
 <ul>
