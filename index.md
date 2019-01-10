@@ -1,5 +1,5 @@
 ![logo](https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/Branding/roomi-branding/roomi--logo.png)
-<h1 align="center">Smart Home Automation and Security</h1>
+<h1 align="center">Smart Home Automation and Security</h1><br><br>
 <!--
 <h2 align="center">April 25 - Final Report</h2>
 <p>Placeholder</p>
