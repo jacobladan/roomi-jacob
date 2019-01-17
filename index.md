@@ -44,12 +44,13 @@
 <h2 >January 17 - Group Project Proposal</h2>
 <p>
   This week the proposal was created. Alongside an Excel document acting as a database of information, we used a 
-  Word document as a display.
+  Word document as a display. The Excel proposal can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/roomi_proposal_excel.pdf">here</a> and the Word proposal can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/roomi_proposal_word.pdf">here</a>
 </p>
 <p>
   Additionally, we ordered a Mini Push-Pull Solenoid 5V to demonstrate the physical application of a locking mechanism. We also
   ordered a PN532 RFID/NFC reader as it is a more compact version of our initial sensor.
 </p>
+
 <h2>January 10 - Scheduling and Group Meetings</h2>
 <h3>Group Members</h3>
 <ul>
