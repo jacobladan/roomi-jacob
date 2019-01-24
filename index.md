@@ -36,10 +36,16 @@
 
 <h2 align="center">January 31 - Group Project Status Update</h2>
 <p>Placeholder</p>
-
-<h2 align="center">January 24 - App, Web, and Database SRS</h2>
-<p>Placeholder</p>
 -->
+
+<h2>January 24 - App, Web, and Database SRS</h2>
+<p>
+  This week the Hardware and Software Requirements Specifications was created. Additionally, a Work Breakdown Structure was created to outline the schedule for the remainder of the semester. The H&SRS can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/SRS_HRS.docx">here</a>.
+</p>
+<br>
+<h3>Work Breakdown Structure</h3>
+<br>
+<img src="https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/Capstone/work_breakdown_structure.png">
 
 <h2 >January 17 - Group Project Proposal</h2>
 <p>
