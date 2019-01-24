@@ -38,7 +38,7 @@
 <p>Placeholder</p>
 -->
 
-<h2>January 24 - App, Web, and Database SRS</h2>
+<h2>January 24th - App, Web, and Database SRS</h2>
 <p>
   This week the Hardware and Software Requirements Specifications was created. Additionally, a Work Breakdown Structure was created to outline the schedule for the remainder of the semester. The H&SRS can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/SRS_HRS.docx">here</a>.
 </p>
@@ -47,7 +47,7 @@
 <br>
 <img src="https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/Capstone/work_breakdown_structure.png">
 
-<h2 >January 17 - Group Project Proposal</h2>
+<h2 >January 17th - Group Project Proposal</h2>
 <p>
   This week the proposal was created. Alongside an Excel document acting as a database of information, we used a 
   Word document as a display. The Excel proposal can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/roomi_proposal_excel.pdf">here</a> and the Word proposal can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/roomi_proposal_word.pdf">here</a>
@@ -57,7 +57,7 @@
   ordered a PN532 RFID/NFC reader as it is a more compact version of our initial sensor.
 </p>
 
-<h2>January 10 - Scheduling and Group Meetings</h2>
+<h2>January 10th - Scheduling and Group Meetings</h2>
 <h3>Group Members</h3>
 <ul>
   <li>Marko Javorac</li>
