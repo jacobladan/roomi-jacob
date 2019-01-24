@@ -40,7 +40,7 @@
 
 <h2>January 24th - App, Web, and Database SRS</h2>
 <p>
-  This week the Hardware and Software Requirements Specifications was created. Additionally, a Work Breakdown Structure was created to outline the schedule for the remainder of the semester. The H&SRS can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/SRS_HRS.docx">here</a>.
+  This week the Hardware and Software Requirements Specifications was created. Additionally, a Work Breakdown Structure was created to outline the schedule for the remainder of the semester. The H&SRS can be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/SRS_RSR_pdf.pdf">here</a>.
 </p>
 <br>
 <h3>Work Breakdown Structure</h3>
