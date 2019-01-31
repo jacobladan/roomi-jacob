@@ -35,7 +35,7 @@
 <p>Placeholder</p>
 -->
 
-<h2>January 31 - Group Project Status Update</h2>
+<h2>January 31st - Group Project Status Update</h2>
 <p>
   This week a progress was produced in order to demonstrate our indavidual work and finacial update. The email that was sent 
   to Kristan Medri (professor for CENG355) and a PDF version of it can be found <a href="">here</a>.
