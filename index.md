@@ -1,39 +1,40 @@
 ![logo](https://raw.githubusercontent.com/roomi-develop/roomi/master/documentation/Branding/roomi-branding/roomi--logo.png)
 <h1 align="center">Smart Home and Security Platform</h1>
 <!--
-<h2>April 25 - Final Report</h2>
+<h2>April 25th - Final Report</h2>
 <p>Placeholder</p>
 
-<h2>April 18 - Presentation</h2>
+<h2>April 18th - Presentation</h2>
 <p>Placeholder</p>
 
-<h2>April 11 - Project Demonstration</h2>
+<h2>April 11th - Project Demonstration</h2>
 <p>Placeholder</p>
 
-<h2>April 4 - Group Physical Enclosure Demonstration</h2>
+<h2>April 4th - Group Physical Enclosure Demonstration</h2>
 <p>Placeholder</p>
 
-<h2>March 28 - Group Troubleshooting Status Update</h2>
+<h2>March 28th - Group Troubleshooting Status Update</h2>
 <p>Placeholder</p>
 
-<h2>March 21 - Checklist</h2>
+<h2>March 21st - Checklist</h2>
 <p>Placeholder</p>
 
-<h2>March 14 - Group Project Status Update</h2>
+<h2>March 14th - Group Project Status Update</h2>
 <p>Placeholder</p>
 
-<h2>March 7 - Group Build Instructions</h2>
+<h2>March 7th - Group Build Instructions</h2>
 <p>Placeholder</p>
 
-<h2>February 28 - Group Integration Status Update</h2>
+<h2>February 28th - Group Integration Status Update</h2>
 <p>Placeholder</p>
 
-<h2>February 14 - App, Web and Database Independent Demonstration</h2>
-<p>Placeholder</p>
-
-<h2>February 7 - Structure, Abstract, Indroduction, Declaration</h>
+<h2>February 14th - App, Web and Database Independent Demonstration</h2>
 <p>Placeholder</p>
 -->
+
+<h2>February 7th - Structure, Abstract, Indroduction, Declaration</h>
+<p>The abstract, introduction, and declaration of group authorship has been added to the technical report. The updated version can
+be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/technical_report.docx">here</a>.</p>
 
 <h2>January 31st - Group Project Status Update</h2>
 <p>
