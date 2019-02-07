@@ -32,7 +32,7 @@
 <p>Placeholder</p>
 -->
 
-<h2>February 7th - Structure, Abstract, Indroduction, Declaration</h>
+<h2>February 7th - Structure, Abstract, Indroduction, Declaration</h2>
 <p>The abstract, introduction, and declaration of group authorship has been added to the technical report. The updated version can
 be found <a href="https://github.com/roomi-develop/roomi/blob/master/documentation/Capstone/technical_report.docx">here</a>.</p>
 
