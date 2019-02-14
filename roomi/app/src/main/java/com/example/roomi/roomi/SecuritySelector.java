@@ -26,7 +26,7 @@ public class SecuritySelector extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
-    private TextView fullNameMenu, emailMenu;
+    private TextView fullNameMenu, emailMenu, welcomeString;
     private NavigationView navigationView;
     private View headerView;
     private FirebaseUser fbUser;
@@ -75,10 +75,7 @@ public class SecuritySelector extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
 
-                        if (id == R.id.nav_home) {
-                            Intent myIntent = new Intent(getApplicationContext(), RoomSelector.class);
-                            startActivity(myIntent);
-                        } else if (id == R.id.nav_security) {
+                        if (id == R.id.nav_security) {
                             // Already at security activity so do nothing
                         } else if (id == R.id.nav_settings) {
                             // Goes to Settings Page
@@ -129,6 +126,7 @@ public class SecuritySelector extends AppCompatActivity {
 
     private void findViews() {
         navigationView = findViewById(R.id.nav_view);
+        welcomeString = findViewById(R.id.welcomeString);
         headerView = navigationView.getHeaderView(0);
         fullNameMenu = headerView.findViewById(R.id.fullNameUser);
         emailMenu = headerView.findViewById(R.id.emailUser);
@@ -145,6 +143,7 @@ public class SecuritySelector extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
                 if (user != null) {
+                    welcomeString.setText(getString(R.string.welcome_home) + " " + user.getFirstName());
                     fullNameMenu.setText(user.getFirstName() + " " + user.getLastName());
                     emailMenu.setText(user.getEmail());
                 } else {

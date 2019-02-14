@@ -67,10 +67,7 @@ public class AboutUs extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
 
-                        if (id == R.id.nav_home) {
-                            Intent myIntent = new Intent(getApplicationContext(), RoomSelector.class);
-                            AboutUs.this.startActivity(myIntent);
-                        } else if (id == R.id.nav_security) {
+                        if (id == R.id.nav_security) {
                             // Goes to Security Activity
                             Intent security = new Intent(getApplicationContext(), SecuritySelector.class);
                             startActivity(security);

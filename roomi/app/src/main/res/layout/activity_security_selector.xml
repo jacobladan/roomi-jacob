@@ -17,17 +17,32 @@
             android:layout_height="match_parent"
             android:paddingBottom="48dp" >
 
+            <TextView
+                android:id="@+id/welcomeString"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/welcome_home_message"
+                android:textColor="@color/colorText"
+                android:textSize="26sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <View
                 android:id="@+id/personnel_button"
                 android:layout_width="250dp"
                 android:layout_height="204dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/element_background_dark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/welcomeString" />
 
             <ImageView
                 android:id="@+id/personnel_icon"

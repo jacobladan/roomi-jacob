@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // Getting Auth Instance
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(MainActivity.this, Home.class));
+            startActivity(new Intent(MainActivity.this, SecuritySelector.class));
             finish();
         }
 
@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "Failed to authenticate. Check your email and password or sign up!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Intent home = new Intent(MainActivity.this, Home.class);
-                            startActivity(home);
+                            Intent SecuritySelector = new Intent(MainActivity.this, SecuritySelector.class);
+                            startActivity(SecuritySelector);
                             finish();
                         }
                     }

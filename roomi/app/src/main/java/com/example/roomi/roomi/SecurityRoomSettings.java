@@ -56,7 +56,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
         key = extras.getString("key");
         Log.d("KeyTest", key);
 
-        setTitle("Security: " + nameVal);
+        setTitle(nameVal);
         findViews();
         getDatabase();
 

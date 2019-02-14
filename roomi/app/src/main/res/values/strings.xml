@@ -90,8 +90,8 @@
     <string name="delete_account">Delete Account</string>
     <string name="colour">Colour</string>
     <string name="update_personnel_settings">Update Personnel Settings</string>
-    <string name="security_rooms">Security: Rooms</string>
-    <string name="security_add_room">Security: Add Room</string>
+    <string name="security_rooms">Rooms</string>
+    <string name="security_add_room">Add Room</string>
     <string name="update_room_settings">Update Room Settings</string>
     <string name="security_selector">Security</string>
     <string name="welcome_home">Welcome,</string>

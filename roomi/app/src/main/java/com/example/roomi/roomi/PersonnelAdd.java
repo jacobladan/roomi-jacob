@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +53,8 @@ public class PersonnelAdd extends AppCompatActivity {
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
                     DatabaseReference newPersonnel = dbRef.push();
                     newPersonnel.setValue(new PersonnelDatastructure(name, accessLevel));
+                    Toast toast = Toast.makeText(getApplicationContext(), name + " with access level " + accessLevel +  " created!", Toast.LENGTH_LONG);
+                    toast.show();
                     finish();
                 }
             }

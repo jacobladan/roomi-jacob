@@ -53,7 +53,7 @@ public class SecurityAddRoom extends AppCompatActivity {
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
                     DatabaseReference newRoom = dbRef.push();
                     newRoom.setValue(new SecurityRoomDataStructure(name, accessLevel));
-                    Toast toast = Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), name + " with access level " + accessLevel +  " created!", Toast.LENGTH_LONG);
                     toast.show();
                     finish();
                 }
