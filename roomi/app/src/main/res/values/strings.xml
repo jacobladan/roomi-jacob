@@ -98,4 +98,13 @@
     <string name="save">Save</string>
     <string name="welcome_to_roomi">Welcome to Roomi!</string>
     <string name="new_email">New Email</string>
+
+    <string name="spinner_prompt">Spinner Prompt</string>
+    <string-array name="access_levels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

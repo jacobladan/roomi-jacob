@@ -72,6 +72,14 @@
                 android:padding="10dp"
                 android:textColor="@color/colorText" />
 
+            <!--<Spinner-->
+                <!--android:id="@+id/access_level_spinner"-->
+                <!--android:layout_width="330dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/element_background_light"-->
+                <!--android:padding="10dp"-->
+                <!--android:popupBackground="@color/elementBackgroundLight" />-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

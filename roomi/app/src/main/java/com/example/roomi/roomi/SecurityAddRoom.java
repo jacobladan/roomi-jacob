@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +32,7 @@ public class SecurityAddRoom extends AppCompatActivity {
     private EditText accessLevelInput;
     private Button submitButton;
     private Button cancelButton;
+//    private Spinner accessLevelSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +48,16 @@ public class SecurityAddRoom extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, getResources().getStringArray(R.array.access_levels));
+//        accessLevelSpinner.setAdapter(arrayAdapter);
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
                     int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
+//                    int accessLevel = Integer.parseInt(String.valueOf(accessLevelSpinner.getSelectedItem()));
                     DatabaseReference newRoom = dbRef.push();
                     newRoom.setValue(new SecurityRoomDataStructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), name + " with access level " + accessLevel +  " created!", Toast.LENGTH_LONG);
@@ -84,6 +91,7 @@ public class SecurityAddRoom extends AppCompatActivity {
         accessLevelInput = findViewById(R.id.security_room_access_level_input);
         submitButton = findViewById(R.id.add_security_room_button);
         cancelButton = findViewById(R.id.cancel_add_security_room_button);
+//        accessLevelSpinner = findViewById(R.id.access_level_spinner);
     }
 
     private void getDatabase() {
