@@ -40,6 +40,7 @@ public class PersonnelSelector extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
     private ProgressBar progressBar;
+    private TextView header;
 
 
     @Override
@@ -58,6 +59,7 @@ public class PersonnelSelector extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         setTitle(R.string.personnel);
+        header = findViewById(R.id.personnel_selector_header);
 
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -119,6 +121,10 @@ public class PersonnelSelector extends AppCompatActivity {
     }
 
     private void generatePersonnelButtons(List<PersonnelDatastructure> personnelList, final String[] keyList) {
+        if (personnelList.isEmpty()) {
+            header.setText("No personnel have been created.");
+        }
+
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
@@ -184,24 +190,26 @@ public class PersonnelSelector extends AppCompatActivity {
             i++;
         }
 
-        Button addPersonnelButton = new Button(this);
-        addPersonnelButton.setTag("add_personnel");
-        addPersonnelButton.setBackgroundResource(R.drawable.element_background_dark);
-        addPersonnelButton.setLayoutParams(buttonParams);
-        addPersonnelButton.setText("+");
-        addPersonnelButton.setTextSize(40);
-        addPersonnelButton.setTextColor(Color.WHITE);
-        addPersonnelButton.setTransformationMethod(null);
 
-        addPersonnelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonnelSelector.this, PersonnelAdd.class);
-                startActivity(intent);
-            }
-        });
 
-        buttonContainer.addView(addPersonnelButton);
+//        Button addPersonnelButton = new Button(this);
+//        addPersonnelButton.setTag("add_personnel");
+//        addPersonnelButton.setBackgroundResource(R.drawable.element_background_dark);
+//        addPersonnelButton.setLayoutParams(buttonParams);
+//        addPersonnelButton.setText("+");
+//        addPersonnelButton.setTextSize(40);
+//        addPersonnelButton.setTextColor(Color.WHITE);
+//        addPersonnelButton.setTransformationMethod(null);
+//
+//        addPersonnelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(PersonnelSelector.this, PersonnelAdd.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        buttonContainer.addView(addPersonnelButton);
     }
 
     private void logoutListener() {

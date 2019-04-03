@@ -45,7 +45,7 @@ public class SecuritySelector extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.security_selector);
+        setTitle(R.string.app_name);
         setContentView(R.layout.activity_security_selector);
         getWindow().setBackgroundDrawableResource(R.drawable.gradient);
 
@@ -143,7 +143,7 @@ public class SecuritySelector extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
                 if (user != null) {
-                    welcomeString.setText(getString(R.string.welcome_home) + " " + user.getFirstName());
+                    welcomeString.setText(getString(R.string.welcome_home) + " " + user.getFirstName() + ".");
                     fullNameMenu.setText(user.getFirstName() + " " + user.getLastName());
                     emailMenu.setText(user.getEmail());
                 } else {

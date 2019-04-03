@@ -41,6 +41,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authListener;
     private ProgressBar progressBar;
+    private TextView header;
 
     @Override
     protected void onStart() {
@@ -58,6 +59,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         setTitle(R.string.security_rooms);
+        header = findViewById(R.id.room_selector_header);
 
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -119,6 +121,10 @@ public class SecurityRoomSelector extends AppCompatActivity {
     }
 
     private void generateRoomButtons(List<SecurityRoomDataStructure> roomList, final String[] keyList) {
+        if (roomList.isEmpty()) {
+            header.setText("No rooms have been created.");
+        }
+
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
@@ -185,24 +191,24 @@ public class SecurityRoomSelector extends AppCompatActivity {
             i++;
         }
 
-        Button addSecurityRoomButton = new Button(this);
-        addSecurityRoomButton.setTag("add_room");
-        addSecurityRoomButton.setBackgroundResource(R.drawable.element_background_dark);
-        addSecurityRoomButton.setLayoutParams(buttonParams);
-        addSecurityRoomButton.setText("+");
-        addSecurityRoomButton.setTextSize(40);
-        addSecurityRoomButton.setTextColor(Color.WHITE);
-        addSecurityRoomButton.setTransformationMethod(null);
-
-        addSecurityRoomButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SecurityRoomSelector.this, SecurityAddRoom.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonContainer.addView(addSecurityRoomButton);
+//        Button addSecurityRoomButton = new Button(this);
+//        addSecurityRoomButton.setTag("add_room");
+//        addSecurityRoomButton.setBackgroundResource(R.drawable.element_background_dark);
+//        addSecurityRoomButton.setLayoutParams(buttonParams);
+//        addSecurityRoomButton.setText("+");
+//        addSecurityRoomButton.setTextSize(40);
+//        addSecurityRoomButton.setTextColor(Color.WHITE);
+//        addSecurityRoomButton.setTransformationMethod(null);
+//
+//        addSecurityRoomButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(SecurityRoomSelector.this, SecurityAddRoom.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        buttonContainer.addView(addSecurityRoomButton);
     }
 
     private void logoutListener() {
