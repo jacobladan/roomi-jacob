@@ -31,8 +31,14 @@ while True:
     if uid is None:
         continue
     else:
-        print('Found card with UID:', [hex(i) for i in uid])
         
+        #Saves uid to cardID as single hex value
+        cardID = "".join([hex(i)[2:] for i in uid])
+        
+        #Dispalys cardID
+        print(cardID)
+        
+        #Solenoid unlocking
         print("Solenoid Pulled")
         GPIO.output(26, GPIO.HIGH)
         
@@ -43,6 +49,7 @@ while True:
                 
         time.sleep(3)
 
+        #Solenoid locking
         print("Solenoid pushed!")
         GPIO.output(26, GPIO.LOW)
 
