@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import RPi.GPIO as GPIO
 import time
+from digole import lcd
 import smbus as smbus
 import board
 import busio
 from digitalio import DigitalInOut
-from digole import lcd
 from adafruit_pn532.i2c import PN532_I2C
 
 # Solenoid Setup

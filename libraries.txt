@@ -1,0 +1,8 @@
+pip3 install
+
+digole
+adafruit-circuitpython-pn532
+adafruit-circuitpython-lis3dh
+RPI.GPIO
+board
+pyrebase
