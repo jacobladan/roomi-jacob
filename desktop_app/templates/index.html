@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="logo-container">
+        <img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
+      </div>
+      <div class="button-container">
+        <button class="button" onclick="window.location.href = '/add_personnel'">Add Personnel</button>
+        <button class="button" onclick="window.location.href = '/assign_room'">Assign to Room</button>
+        <button class="button" onclick="window.location.href = '/running'">Start</button>
+      </div>
+      <form action="" class="form">
+        <div class="form-section">
+          <label class="form-label" for="Name">Name</label>
+          <input class="form-input" type="text">
+        </div>
+        <div class="form-section">
+          <label class="form-label" for="Access Level">Access Level</label>
+          <input class="form-input" type="text">
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
+
+
+
+<!-- <html>
+    <head>
+        <link rel="stylesheet" href="../static/styles.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+            $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+    </head>
+    <body>
+        <h1>My website</h1>
+        <a href="/Jake">Hi Jake</a>
+    </body>
+    <script type=text/javascript>
+        $(function() {
+          $('a#calculate').bind('click', function() {
+            $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+              a: $('input[name="a"]').val(),
+              b: $('input[name="b"]').val()
+            }, function(data) {
+              $("#result").text(data.result);
+            });
+            return false;
+          });
+        });
+      </script>
+      <h1>jQuery Example</h1>
+      <p><input type=text size=5 name=a> +
+         <input type=text size=5 name=b> =
+         <span id=result>?</span>
+      <p><a href=# id=calculate>calculate server side</a>
+</html> -->

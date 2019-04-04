@@ -1,0 +1,90 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.main-container {
+    font-family: 'Montserrat', sans-serif;
+    color: white; 
+    display: block;
+    padding: 25px;
+    margin: 0 auto;
+    margin-top: 5%;
+    width: 20%;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    background-image: linear-gradient(#75ace0, #855ee0, #bd10e0);
+    border-radius: 4px; 
+    z-index: 999;
+    text-align: center;
+}
+
+.logo-container {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+.logo {
+    width: 300px;
+}
+
+.button-container {
+    margin-bottom: 35px;
+}
+
+.button {
+    display: block;
+    background: #00000061;
+    outline: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    border-radius: 4px;
+    height: 56px;
+    margin: 0 auto;
+    margin-bottom: 12px;
+    font-size: 19px;
+    font-weight: bold;
+    width: 235px;
+}
+
+.button:hover {
+    background: #00000098;
+    transition: ease-in-out 150ms;
+    cursor: pointer;
+}
+
+.form {
+    text-align: left;
+    padding-left: 75px;
+    padding-right: 75px;
+    display: none;
+}
+
+.form-section {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-label {
+    font-family: inherit;
+    line-height: 30px;
+}
+
+.form-input {
+    color: inherit;
+    font-family: inherit;
+    background: #00000061;
+    outline: none;
+    border: none;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    border-radius: 4px;
+    width: 165px;
+    height: 30px;
+    padding-left: 8px;
+}
