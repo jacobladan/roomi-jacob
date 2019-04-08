@@ -4,6 +4,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+	<title>roomi</title>
   </head>
   <body>
     <div class="main-container">
@@ -15,16 +16,6 @@
         <button class="button" onclick="window.location.href = '/assign_room'">Assign to Room</button>
         <button class="button" onclick="window.location.href = '/running'">Start</button>
       </div>
-      <form action="" class="form">
-        <div class="form-section">
-          <label class="form-label" for="Name">Name</label>
-          <input class="form-input" type="text">
-        </div>
-        <div class="form-section">
-          <label class="form-label" for="Access Level">Access Level</label>
-          <input class="form-input" type="text">
-        </div>
-      </form>
     </div>
   </body>
 </html>
