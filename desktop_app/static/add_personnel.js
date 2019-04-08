@@ -2,13 +2,28 @@ $(document).ready(function(){
     $('a#add').bind('click', function() {
         var name = $('#name').val();
         var accessLevel = $('#access-level').val();
-        validate(name, accessLevel);
+
+        if (validate(name, accessLevel)) {
+            var timeleft = 10;
+            var downloadTimer = setInterval(function(){
+            document.getElementById("progressBar").value = 10 - timeleft;
+            timeleft -= 1;
+            if(timeleft <= 0) { clearInterval(downloadTimer) }
+            }, 1000);
+
+            $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
+                console.log(data);
+                if (data.gotCard === 'true') {
+                    addToDB(name, accessLevel);
+                } else { alert("Didn't see a card") }
+            })
+        }
     });
 });
 
 function validate(name, accessLevel) {
     var nameRegex = /^[a-zA-Z]+$/;
-    var accessLevelRegex = /[1-5]/;
+    var accessLevelRegex = /[0-5]/;
 
     if (name.length === 0 || name.length > 16 || !nameRegex.test(name)) {
         alert("Name Wrong");
@@ -17,7 +32,7 @@ function validate(name, accessLevel) {
         alert("Access Level Wrong");
         return false;
     } else {
-        addToDB(name, accessLevel);
+        return true;
     }
 }
 
@@ -26,5 +41,7 @@ function addToDB(name, accessLevel) {
     $.get($SCRIPT_ROOT + '/add_personnel_to_db', {
         name: name,
         accessLevel: accessLevel
-    });
+    },
+        window.location = $SCRIPT_ROOT + '/'
+    );
 }

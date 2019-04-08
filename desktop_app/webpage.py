@@ -21,7 +21,8 @@ def running():
 
 @app.route('/poll_for_card')
 def pollForCard():
-    time.sleep(5)
+    ## Needs to poll for +1 seconds for JS to catch up
+    time.sleep(6)
     # if (successful) {
     #     return jsonify(gotCard='true')
     # } else {
@@ -35,7 +36,7 @@ def addPersonnelToDB():
     accessLevel = request.args.get('accessLevel', '0')
     print(name)
     print(accessLevel)
-    return render_template('/add_personnel.html')
+    return render_template('/index.html')
 
 @app.route('/add_room_to_db')
 def addRoomToDB():
@@ -43,7 +44,7 @@ def addRoomToDB():
     accessLevel = request.args.get('accessLevel', '0')
     print(name)
     print(accessLevel)
-    return render_template('/assign_room.html')
+    return render_template('/index.html')
 
 # @app.route('/<name>')
 # def hello(name):

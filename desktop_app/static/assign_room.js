@@ -2,17 +2,13 @@ $(document).ready(function(){
     $('a#add').bind('click', function() {
         var name = $('#name').val();
         var accessLevel = $('#access-level').val();
-        $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
-            if (data.gotCard === true) {
-                validate(name, accessLevel);
-            } else { alert("Didn't see a card") }
-        })
+        validate(name, accessLevel);
     });
 });
 
 function validate(name, accessLevel) {
     var nameRegex = /^[a-zA-Z]+$/;
-    var accessLevelRegex = /[1-5]/;
+    var accessLevelRegex = /[0-5]/;
 
     if (name.length === 0 || name.length > 16 || !nameRegex.test(name)) {
         alert("Name Wrong");
@@ -30,5 +26,7 @@ function addToDB(name, accessLevel) {
     $.get($SCRIPT_ROOT + '/add_room_to_db', {
         name: name,
         accessLevel: accessLevel
-    });
+    },
+        window.location = $SCRIPT_ROOT + '/'
+    );
 }

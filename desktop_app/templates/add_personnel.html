@@ -2,25 +2,13 @@
 	<head>
 		<link rel="stylesheet" href="../static/styles.css">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
+		<link rel="shortcut icon" href="../static/roomi_icon.png" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<title>Add Personnel</title>
 		<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 		<script type="text/javascript" src="../static/add_personnel.js"></script>
 	</head>
 	<body>
-			<!-- <script type=text/javascript>
-        $(function() {
-          $('a#add').bind('click', function() {
-            $.getJSON($SCRIPT_ROOT + '/add_personnel_to_db', {
-              name: $('#name').val(),
-              accessLevel: $('#access-level').val()
-            }, function(data) {
-              console.log(data);
-            });
-            return false;
-          });
-        });
-      </script> -->
 		<div class="main-container">
 			<div class="logo-container form">
 				<img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
@@ -28,18 +16,20 @@
 			<h2>Add Personnel</h2>
 			<form class="form">
 				<div class="form-section">
-				  <label class="form-label" for="Name">Name</label>
+				  <label class="form-label" for="Name">Personnel Name</label>
 				  <input id="name" class="form-input" type="text" maxlength="16">
 				</div>
 				<div class="form-section bottom">
-				  <label class="form-label" for="Access Level">Access Level (0-5)</label>
+				  <label class="form-label" for="Access Level">Personnel Access Level (0-5)</label>
 				  <input id="access-level" class="form-input" type="text" maxlength="1">
 				</div>
 				<div class="button-container">
-					<a id="add" class="button form submit" >Add</a>
+					<a id="add" class="button form submit">Add</a>
 					<a class="button form cancel" href="{{ url_for('index') }}">Cancel</a>
 				</div>
 			</form>
+			<progress value="0" max="10" id="progressBar"></progress>
+			<p>Tap card within 10s of submitting to add</p>
 		</div>
 	</body>
 </html>

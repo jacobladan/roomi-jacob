@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" href="../static/styles.css">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
+		<link rel="shortcut icon" href="../static/roomi_icon.png" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<title>Assign to Room</title>
 		<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
@@ -12,20 +13,20 @@
 			<div class="logo-container form">
 				<img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
 			</div>
-			<h2>Assign to Room</h2>
+			<h2>Assign Device to Room</h2>
 			<form action="" class="form">
-					<div class="form-section">
-							<label class="form-label" for="Name">Name</label>
-							<input id="name" class="form-input" type="text" maxlength="16">
-						</div>
-						<div class="form-section bottom">
-							<label class="form-label" for="Access Level">Access Level (0-5)</label>
-							<input id="access-level" class="form-input" type="text" maxlength="1">
-						</div>
-						<div class="button-container">
-							<a id="add" class="button form submit" >Add</a>
-							<a class="button form cancel" href="{{ url_for('index') }}">Cancel</a>
-						</div>
+				<div class="form-section">
+					<label class="form-label" for="Name">Room Name</label>
+					<input id="name" class="form-input" type="text" maxlength="16">
+				</div>
+				<div class="form-section bottom">
+					<label class="form-label" for="Access Level">Room Access Level (0-5)</label>
+					<input id="access-level" class="form-input" type="text" maxlength="1">
+				</div>
+				<div class="button-container">
+					<a id="add" class="button form submit" >Add</a>
+					<a class="button form cancel" href="{{ url_for('index') }}">Cancel</a>
+				</div>
 			</form>
 		</div>
 	</body>
