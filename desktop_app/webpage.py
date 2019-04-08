@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    #Put stuff here to stop card polling
     return render_template('index.html')
 
 @app.route('/add_personnel')
@@ -44,6 +45,10 @@ def addRoomToDB():
     accessLevel = request.args.get('accessLevel', '0')
     print(name)
     print(accessLevel)
+    return render_template('/index.html')
+
+@app.route('/stop_security')
+def stopSecurity():
     return render_template('/index.html')
 
 # @app.route('/<name>')

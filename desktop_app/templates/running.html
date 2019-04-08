@@ -1,5 +1,22 @@
 <html>
-    <body>
-        running
-    </body>
+  <head>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
+    <link rel="shortcut icon" href="../static/roomi_icon.png" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+    <script type="text/javascript" src="../static/cancel_security.js"></script>
+	<title>Secure</title>
+  </head>
+  <body>
+    <div class="main-container">
+        <div class="logo-container">
+            <img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
+        </div>
+            <h2>Your room is now secured by your roomi device!</h2>
+            <div class="button-container">
+                <button id="cancel" class="button cancel">Stop Security</button>
+        </div>
+    </div>
+  </body>
 </html>

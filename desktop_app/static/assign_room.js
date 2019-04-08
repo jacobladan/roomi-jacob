@@ -11,10 +11,10 @@ function validate(name, accessLevel) {
     var accessLevelRegex = /[0-5]/;
 
     if (name.length === 0 || name.length > 16 || !nameRegex.test(name)) {
-        alert("Name Wrong");
+        alert("Name Wrong: 1-16 Letters");
         return false;
     } else if (!accessLevelRegex.test(accessLevel)) {
-        alert("Access Level Wrong");
+        alert("Access Level Wrong: Number Between 0 and 5");
         return false;
     } else {
         addToDB(name, accessLevel);
