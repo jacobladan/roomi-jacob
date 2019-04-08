@@ -1,4 +1,5 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, url_for, redirect
+import time
 
 app = Flask(__name__)
 
@@ -17,6 +18,32 @@ def assignRoom():
 @app.route('/running')
 def running():
     return render_template('running.html')
+
+@app.route('/poll_for_card')
+def pollForCard():
+    time.sleep(5)
+    # if (successful) {
+    #     return jsonify(gotCard='true')
+    # } else {
+    #     return jsonify(gotCard='false')
+    # }
+    return jsonify(gotCard='true')
+
+@app.route('/add_personnel_to_db')
+def addPersonnelToDB():
+    name = request.args.get('name', 'name')
+    accessLevel = request.args.get('accessLevel', '0')
+    print(name)
+    print(accessLevel)
+    return render_template('/add_personnel.html')
+
+@app.route('/add_room_to_db')
+def addRoomToDB():
+    name = request.args.get('name', 'name')
+    accessLevel = request.args.get('accessLevel', '0')
+    print(name)
+    print(accessLevel)
+    return render_template('/assign_room.html')
 
 # @app.route('/<name>')
 # def hello(name):

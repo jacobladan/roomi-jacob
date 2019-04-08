@@ -75,9 +75,11 @@ body {
 
 .button.form {
 	display: inline-block;
-	height: 45px;
-	font-size: 16px;
-	width: 40%;
+    height: 45px;
+    font-size: 16px;
+    width: 40%;
+    line-height: 45px;
+    text-decoration: none;
 }
 
 .form {

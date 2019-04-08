@@ -4,7 +4,8 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900" rel="stylesheet">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<title>Assign to Room</title>
-		<!-- <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script> -->
+		<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+		<script type="text/javascript" src="../static/assign_room.js"></script>
 	</head>
 	<body>
 		<div class="main-container">
@@ -13,18 +14,18 @@
 			</div>
 			<h2>Assign to Room</h2>
 			<form action="" class="form">
-				<div class="form-section">
-				  <label class="form-label" for="Name">Name</label>
-				  <input class="form-input" type="text" maxlength="16">
-				</div>
-				<div class="form-section bottom">
-				  <label class="form-label" for="Access Level">Access Level (0-5)</label>
-				  <input class="form-input" type="text" maxlength="1">
-				</div>
-				<div class="button-container">
-					<button class="button form submit" type="submit">Add</button>
-					<button class="button form cancel">Cancel</button>
-				</div>
+					<div class="form-section">
+							<label class="form-label" for="Name">Name</label>
+							<input id="name" class="form-input" type="text" maxlength="16">
+						</div>
+						<div class="form-section bottom">
+							<label class="form-label" for="Access Level">Access Level (0-5)</label>
+							<input id="access-level" class="form-input" type="text" maxlength="1">
+						</div>
+						<div class="button-container">
+							<a id="add" class="button form submit" >Add</a>
+							<a class="button form cancel" href="{{ url_for('index') }}">Cancel</a>
+						</div>
 			</form>
 		</div>
 	</body>
