@@ -6,6 +6,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     <script type="text/javascript" src="../static/cancel_security.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Secure</title>
   </head>
   <body>
@@ -13,9 +14,11 @@
         <div class="logo-container">
             <img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
         </div>
-            <h2>Your room is now secured by your roomi device!</h2>
+            <h2>Roomi's got your back!<h2>
+            <h3>Your room is now secured.</h3>
+            <div class="divider"></div>
             <div class="button-container">
-                <button id="cancel" class="button cancel">Stop Security</button>
+                <button id="cancel" class="button cancel">Stop Roomi</button>
         </div>
     </div>
   </body>

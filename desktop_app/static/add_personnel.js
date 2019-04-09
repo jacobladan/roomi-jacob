@@ -41,7 +41,9 @@ function addToDB(name, accessLevel) {
     $.get($SCRIPT_ROOT + '/add_personnel_to_db', {
         name: name,
         accessLevel: accessLevel
-    },
-        window.location = $SCRIPT_ROOT + '/'
+    },function() {
+            alert("Personnel has been added!")
+            window.location = $SCRIPT_ROOT + '/'
+        }   
     );
 }

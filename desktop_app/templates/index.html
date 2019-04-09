@@ -5,13 +5,15 @@
     <link rel="shortcut icon" href="../static/roomi_icon.png" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
-	<title>roomi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>roomi</title>
   </head>
   <body>
     <div class="main-container">
       <div class="logo-container">
         <img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
       </div>
+      <div class="divider"></div>
       <div class="button-container">
         <button class="button" onclick="window.location.href = '/add_personnel'">Add Personnel</button>
         <button class="button" onclick="window.location.href = '/assign_room'">Assign to Room</button>

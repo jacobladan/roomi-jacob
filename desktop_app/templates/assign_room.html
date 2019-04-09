@@ -7,13 +7,15 @@
 		<title>Assign to Room</title>
 		<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 		<script type="text/javascript" src="../static/assign_room.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
 		<div class="main-container">
 			<div class="logo-container form">
 				<img src="../static/roomi_logo.png" alt="roomi_logo" class="logo">
 			</div>
-			<h2>Assign Device to Room</h2>
+			<h2 class="form-header">Assign Device to Room</h2>
+			<div class="divider"></div>
 			<form action="" class="form">
 				<div class="form-section">
 					<label class="form-label" for="Name">Room Name</label>

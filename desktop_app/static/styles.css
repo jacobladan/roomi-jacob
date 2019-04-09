@@ -23,7 +23,7 @@ body {
 .logo-container {
     display: inline-block;
     width: 100%;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
 }
 
 .logo-container.form {
@@ -140,6 +140,38 @@ progress[value]::-webkit-progress-value {
     border-radius: 4px;
 }
 
+h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+h2 {
+    margin: 0;
+}
+
+h2.form-header {
+    margin-top: 15px;
+}
+
+.divider {
+    border-bottom: 2px solid white;
+    width: 45%;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
 p {
     margin-bottom: 0;
+}
+
+/* Responsive */
+@media only screen and (max-width: 450px) { 
+    .main-container {
+        width: calc(100% - 50px);
+        min-width: 300px;
+        margin: 0;
+        height: calc(100vh - 50px);
+        overflow: auto;
+    }
 }
