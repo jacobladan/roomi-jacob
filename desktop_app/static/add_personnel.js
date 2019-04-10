@@ -12,10 +12,12 @@ $(document).ready(function(){
             }, 1000);
 
             $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
-                console.log(data);
                 if (data.gotCard === 'true') {
                     addToDB(name, accessLevel);
-                } else { alert("Didn't see a card") }
+                } else { 
+                    alert("Didn't see a card");
+                    window.location = $SCRIPT_ROOT + '/';
+                }
             })
         }
     });
@@ -42,7 +44,7 @@ function addToDB(name, accessLevel) {
         name: name,
         accessLevel: accessLevel
     },function() {
-            alert("Personnel has been added!")
+            alert(name + " has been added!")
             window.location = $SCRIPT_ROOT + '/'
         }   
     );

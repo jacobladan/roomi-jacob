@@ -29,7 +29,7 @@ def pollForCard():
     # } else {
     #     return jsonify(gotCard='false')
     # }
-    return jsonify(gotCard='true')
+    return jsonify(gotCard='false')
 
 @app.route('/add_personnel_to_db')
 def addPersonnelToDB():

@@ -27,7 +27,7 @@ function addToDB(name, accessLevel) {
         name: name,
         accessLevel: accessLevel
     }, function() {
-            alert("Room has been added!")
+            alert(name + " has been added!")
             window.location = $SCRIPT_ROOT + '/'
         }
     );
