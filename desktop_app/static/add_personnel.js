@@ -13,7 +13,7 @@ $(document).ready(function(){
 
             $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
                 if (data.gotCard === 'true') {
-                    addToDB(name, accessLevel);
+                    addToDB(name, accessLevel, data.cardId);
                 } else { 
                     alert("Didn't see a card");
                     window.location = $SCRIPT_ROOT + '/';
@@ -38,14 +38,15 @@ function validate(name, accessLevel) {
     }
 }
 
-function addToDB(name, accessLevel) {
+function addToDB(name, accessLevel, cardId) {
     
     $.get($SCRIPT_ROOT + '/add_personnel_to_db', {
         name: name,
-        accessLevel: accessLevel
+        accessLevel: accessLevel,
+        cardId: cardId
     },function() {
-            alert(name + " has been added!")
-            window.location = $SCRIPT_ROOT + '/'
+            alert(name + " has been added!");
+            window.location.replace($SCRIPT_ROOT + '/');
         }   
     );
 }

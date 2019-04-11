@@ -27,8 +27,8 @@ function addToDB(name, accessLevel) {
         name: name,
         accessLevel: accessLevel
     }, function() {
-            alert(name + " has been added!")
-            window.location = $SCRIPT_ROOT + '/'
+            alert(name + " has been added!");
+            window.location.replace($SCRIPT_ROOT + '/');
         }
     );
 }
