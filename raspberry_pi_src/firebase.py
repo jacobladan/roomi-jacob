@@ -14,20 +14,25 @@ config = {
 ###########################################################
 
 def addPersonnel(cardID):
-    name = input("Enter the personnel name: ")
+    if isCardAvailable(cardID):
+        name = input("Enter the personnel name: ")
 
-    while True:
+        while True:
 
-        accessLevel = int(input("Enter the personnel's access level: "))
+            accessLevel = int(input("Enter the personnel's access level (0-5): "))
 
-        if (accessLevel > 5 or accessLevel < 0):
-            print("Invalid access level. Please try again")
-            continue
+            if (accessLevel > 5 or accessLevel < 0):
+                print("Invalid access level. Please try again")
+                continue
 
-        break
+            break
 
-    newUser = {"name": name, "accessLevel": accessLevel, "keyCard": cardID}
-    db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardID).set(newUser)
+        newUser = {"name": name, "accessLevel": accessLevel, "keyCard": cardID}
+        db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardID).set(newUser)
+    else:
+        print("Cannot Add User! KeyCard Already in Use!")
+
+
 
 
 ############################################################
@@ -68,6 +73,17 @@ def addRoom():
 
     return
 
+############################################################
+#   Check Card on the Database
+############################################################
+def isCardAvailable(cardID):
+    keyCards = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").shallow().get().val()
+
+    if cardID in keyCards:
+        return False
+    else:
+        return True
+
 
 ############################################################
 #   Database initialization
@@ -80,15 +96,15 @@ auth = firebase.auth()
 user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
 
 db = firebase.database()
-results = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").get();
+results = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").get()
 readAccessLevel = 4
-# addUser("abcdaef")
 
-#addPersonnel("1234567890")
-addRoom()
+addPersonnel("123456789")
+#addRoom()
 
 # personnel = results.val()
 
 # for values in personnel.values():
 # print("Access Level ", values["accessLevel"])
+
 
