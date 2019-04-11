@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, jsonify, request, url_for, redirect
-import time, pyrebase
+import time, pyrebase, threading
 import RPi.GPIO as GPIO
 from digole import lcd
 import smbus as smbus
@@ -39,9 +39,52 @@ auth = firebase.auth()
 user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
 db = firebase.database()
 
+isNormalModeRunning = False
+
 app = Flask(__name__)
 
 #- Web Routes -#
+@app.before_first_request
+def normalModeThread():
+    def run():
+        global isNormalModeRunning
+        while isNormalModeRunning:
+            uid = pn532.read_passive_target(timeout=1)
+            print('.', end="")
+            # Try again if no card is available.
+            if uid is None:
+                continue
+            else:
+                
+                #Saves uid to cardID as single hex value
+                cardID = "".join([hex(i)[2:] for i in uid])
+                
+                #Dispalys cardID
+                print(cardID)
+                
+                #Solenoid unlocking
+                print("Solenoid Pulled")
+                GPIO.output(26, GPIO.HIGH)
+                
+                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+                text = "TTUnlocked"
+                textToWrite = [ord(i) for i in text]
+                i2c_digole.write_block_data(address, 0x00, textToWrite)
+                        
+                time.sleep(3)
+
+                #Solenoid locking
+                print("Solenoid pushed!")
+                GPIO.output(26, GPIO.LOW)
+
+                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+                text = "TTLocked"
+                textToWrite = [ord(i) for i in text]
+                i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+    thread = threading.Thread(target=run)
+    thread.start()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -112,7 +155,11 @@ def addRoomToDB():
 
 @app.route('/start_normal_mode')
 def startNormalMode():
-    normalMode()
+    isNormalModeRunning = True
+
+@app.route('/stop_normal_mode')
+def stopNormalMode():
+    isNormalModeRunning = False
 
 #- Functionality -#
 #- Polls for 10s and extracts card ID when found -#
@@ -148,41 +195,5 @@ def getMACAdd():
 
     return (str[0:17])
 
-#- Normal running mode for access polling -#
-def normalMode():
-    while True:
-        uid = pn532.read_passive_target(timeout=1)
-        print('.', end="")
-        # Try again if no card is available.
-        if uid is None:
-            continue
-        else:
-            
-            #Saves uid to cardID as single hex value
-            cardID = "".join([hex(i)[2:] for i in uid])
-            
-            #Dispalys cardID
-            print(cardID)
-            
-            #Solenoid unlocking
-            print("Solenoid Pulled")
-            GPIO.output(26, GPIO.HIGH)
-            
-            i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-            text = "TTUnlocked"
-            textToWrite = [ord(i) for i in text]
-            i2c_digole.write_block_data(address, 0x00, textToWrite)
-                    
-            time.sleep(3)
-
-            #Solenoid locking
-            print("Solenoid pushed!")
-            GPIO.output(26, GPIO.LOW)
-
-            i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-            text = "TTLocked"
-            textToWrite = [ord(i) for i in text]
-            i2c_digole.write_block_data(address, 0x00, textToWrite)
-
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', threaded=True)
