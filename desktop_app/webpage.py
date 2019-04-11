@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
 from flask import Flask, render_template, jsonify, request, url_for, redirect
-import time, pyrebase, threading
+import time, threading
+import pyrebase
 import RPi.GPIO as GPIO
 from digole import lcd
 import smbus as smbus
@@ -47,10 +47,13 @@ app = Flask(__name__)
 @app.before_first_request
 def normalModeThread():
     def run():
+        print("Thread started")
         global isNormalModeRunning
         while isNormalModeRunning:
+            print("in the loop")
+            print("isNormalModeRunning: " + isNormalModeRunning.str())
             uid = pn532.read_passive_target(timeout=1)
-            print('.', end="")
+            #print('.', end="")
             # Try again if no card is available.
             if uid is None:
                 continue
@@ -111,6 +114,8 @@ def pollForCard():
     cardId = getCardId()
     if cardId is None:
         return jsonify(gotCard='false', cardId="null")
+    elif not getCardId():
+        return jsonify(gotCard='false', cardId="null")
     else:
         return jsonify(gotCard='true', cardId=cardId)
 
@@ -131,7 +136,7 @@ def addPersonnelToDB():
     text = "TT" + name + " added"
     textToWrite = [ord(i) for i in text]
     i2c_digole.write_block_data(address, 0x00, textToWrite)
-    # return render_template('/index.html')
+    return render_template('/index.html')
 
 #- Assignes the RPi to room with MAC as DB Key -#
 @app.route('/add_room_to_db')
@@ -151,15 +156,17 @@ def addRoomToDB():
     text = "TTPi Assgned to " + name
     textToWrite = [ord(i) for i in text]
     i2c_digole.write_block_data(address, 0x00, textToWrite)
-    # return render_template('/index.html')
+    return render_template('/index.html')
 
 @app.route('/start_normal_mode')
 def startNormalMode():
     isNormalModeRunning = True
+    return "Roomi started"
 
 @app.route('/stop_normal_mode')
 def stopNormalMode():
     isNormalModeRunning = False
+    return "Roomi stopped"
 
 #- Functionality -#
 #- Polls for 10s and extracts card ID when found -#

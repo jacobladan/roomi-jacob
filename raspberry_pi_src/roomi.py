@@ -7,6 +7,32 @@ import board
 import busio
 from digitalio import DigitalInOut
 from adafruit_pn532.i2c import PN532_I2C
+import pyrebase
+
+def getMACAdd():
+    interface = 'eth0'
+    try:
+        str = open('/sys/class/net/%s/address' % interface).read()
+    except:
+        str = "00:00:00:00:00:00"
+
+    return (str[0:17])
+
+#- Firebase authentication config info -#
+config = {
+    "apiKey": "AIzaSyDnDXIpTdqMeTbVK_6S-XvGpUE4juq0Ge4",
+    "authDomain": "roomi-825d0.firebaseapp.com",
+    "databaseURL": "https://roomi-825d0.firebaseio.com/",
+    "storageBucket": "roomi-825d0.appspot.com"
+}
+
+#- Firebase Init -#
+firebase = pyrebase.initialize_app(config)
+auth = firebase.auth()
+
+#- Authentication for Firebase -#
+user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
+db = firebase.database()
 
 # Solenoid Setup
 GPIO.setmode(GPIO.BCM)
@@ -31,30 +57,35 @@ while True:
     if uid is None:
         continue
     else:
-        
-        #Saves uid to cardID as single hex value
+        macAddr = getMACAdd()
         cardID = "".join([hex(i)[2:] for i in uid])
+        persAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardID).child("accessLevel").get().val() 
+        piAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+        print(persAL)
+        print(piAL)
+        if persAL >= piAL:
+            #Solenoid unlocking
+            print("Solenoid Pulled")
+            GPIO.output(26, GPIO.HIGH)
         
-        #Dispalys cardID
-        print(cardID)
-        
-        #Solenoid unlocking
-        print("Solenoid Pulled")
-        GPIO.output(26, GPIO.HIGH)
-        
-        i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-        text = "TTUnlocked"
-        textToWrite = [ord(i) for i in text]
-        i2c_digole.write_block_data(address, 0x00, textToWrite)
+            i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+            text = "TTUnlocked"
+            textToWrite = [ord(i) for i in text]
+            i2c_digole.write_block_data(address, 0x00, textToWrite)
                 
-        time.sleep(3)
+            time.sleep(3)
 
-        #Solenoid locking
-        print("Solenoid pushed!")
-        GPIO.output(26, GPIO.LOW)
+            #Solenoid locking
+            print("Solenoid pushed!")
+            GPIO.output(26, GPIO.LOW)
 
-        i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-        text = "TTLocked"
-        textToWrite = [ord(i) for i in text]
-        i2c_digole.write_block_data(address, 0x00, textToWrite)
+            i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+            text = "TTLocked"
+            textToWrite = [ord(i) for i in text]
+            i2c_digole.write_block_data(address, 0x00, textToWrite)
+        else:
+            i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+            text = "TTDenied"
+            textToWrite = [ord(i) for i in text]
+            i2c_digole.write_block_data(address, 0x00, textToWrite)
         
