@@ -7,11 +7,11 @@ $(document).ready(function(){
 });
 
 function validate(name, accessLevel) {
-    var nameRegex = /^[a-zA-Z]+$/;
+    var nameRegex = /^[a-zA-Z0-9]+$/;
     var accessLevelRegex = /[0-5]/;
 
     if (name.length === 0 || name.length > 16 || !nameRegex.test(name)) {
-        alert("Name Wrong: 1-16 Letters");
+        alert("Name Wrong: 1-16 Letters/Numbers");
         return false;
     } else if (!accessLevelRegex.test(accessLevel)) {
         alert("Access Level Wrong: Number Between 0 and 5");

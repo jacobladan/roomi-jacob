@@ -14,9 +14,12 @@ $(document).ready(function(){
             $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
                 if (data.gotCard === 'true') {
                     addToDB(name, accessLevel, data.cardId);
+                } else if {
+                    alert("That card has already been assigned");
+                    window.location.replace($SCRIPT_ROOT + '/');
                 } else { 
                     alert("Didn't see a card");
-                    window.location = $SCRIPT_ROOT + '/';
+                    window.location.replace($SCRIPT_ROOT + '/');
                 }
             })
         }
@@ -24,7 +27,7 @@ $(document).ready(function(){
 });
 
 function validate(name, accessLevel) {
-    var nameRegex = /^[a-zA-Z]+$/;
+    var nameRegex = /^[a-zA-Z0-9]+$/;
     var accessLevelRegex = /[0-5]/;
 
     if (name.length === 0 || name.length > 16 || !nameRegex.test(name)) {

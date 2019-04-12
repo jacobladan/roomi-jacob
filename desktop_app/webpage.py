@@ -13,10 +13,12 @@ from adafruit_pn532.i2c import PN532_I2C
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(26, GPIO.OUT)
+
 #Digole Setup and clear screen
 i2c_digole = smbus.SMBus(1)
 address = 0x27
 i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+
 #NFC Setup
 i2c_nfc = busio.I2C(board.SCL, board.SDA)
 reset_pin = DigitalInOut(board.D6)
@@ -36,10 +38,12 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 #- Authentication for Firebase -#
-user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
+#user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
+user = auth.sign_in_with_email_and_password("roomi.develop@gmail.com", "roomi1")
 db = firebase.database()
 
 isNormalModeRunning = False
+dbUserKey = "jKz8q9JKxjWOscY3OTj7mlLgrDA2"
 
 app = Flask(__name__)
 
@@ -47,43 +51,30 @@ app = Flask(__name__)
 @app.before_first_request
 def normalModeThread():
     def run():
-        print("Thread started")
+        # print("Thread started")
         global isNormalModeRunning
-        while isNormalModeRunning:
-            print("in the loop")
-            print("isNormalModeRunning: " + isNormalModeRunning.str())
-            uid = pn532.read_passive_target(timeout=1)
-            #print('.', end="")
-            # Try again if no card is available.
-            if uid is None:
-                continue
-            else:
-                
-                #Saves uid to cardID as single hex value
-                cardID = "".join([hex(i)[2:] for i in uid])
-                
-                #Dispalys cardID
-                print(cardID)
-                
-                #Solenoid unlocking
-                print("Solenoid Pulled")
-                GPIO.output(26, GPIO.HIGH)
-                
-                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-                text = "TTUnlocked"
-                textToWrite = [ord(i) for i in text]
-                i2c_digole.write_block_data(address, 0x00, textToWrite)
-                        
-                time.sleep(3)
-
-                #Solenoid locking
-                print("Solenoid pushed!")
-                GPIO.output(26, GPIO.LOW)
-
-                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-                text = "TTLocked"
-                textToWrite = [ord(i) for i in text]
-                i2c_digole.write_block_data(address, 0x00, textToWrite)
+        # print("%r" % isNormalModeRunning)
+        while True:
+            while isNormalModeRunning:
+                uid = pn532.read_passive_target(timeout=1)
+                if uid is None:
+                    continue
+                else:
+                    macAddr = getMACAdd()
+                    cardID = "".join([hex(i)[2:] for i in uid])
+                    persAL = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("accessLevel").get().val() 
+                    piAL = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+                    if persAL >= piAL:
+                        #Solenoid unlocking
+                        GPIO.output(26, GPIO.HIGH)
+                        digoleWrite("Unlocked")                
+                        time.sleep(3)
+                        #Solenoid locking
+                        GPIO.output(26, GPIO.LOW)
+                        digoleWrite("Locked")
+                    else:
+                        digoleWrite("Denied")
+                        time.sleep(3)
 
     thread = threading.Thread(target=run)
     thread.start()
@@ -114,8 +105,8 @@ def pollForCard():
     cardId = getCardId()
     if cardId is None:
         return jsonify(gotCard='false', cardId="null")
-    elif not getCardId():
-        return jsonify(gotCard='false', cardId="null")
+    elif not isCardAvailable(cardId):
+        return jsonify(gotCard='unique', cardId="null")
     else:
         return jsonify(gotCard='true', cardId=cardId)
 
@@ -130,12 +121,8 @@ def addPersonnelToDB():
         "accessLevel": accessLevel,
     }
 
-    db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardId).set(personnel)
-    print("Personnel with cardId: " + cardId + ", Name: " + name + ", and AL: " + accessLevel)
-    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-    text = "TT" + name + " added"
-    textToWrite = [ord(i) for i in text]
-    i2c_digole.write_block_data(address, 0x00, textToWrite)
+    db.child("users").child(dbUserKey).child("personnel").child(cardId).set(personnel)
+    digoleWrite(name + " added")
     return render_template('/index.html')
 
 #- Assignes the RPi to room with MAC as DB Key -#
@@ -150,21 +137,19 @@ def addRoomToDB():
         "accessLevel": accessLevel
     }
 
-    db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("rooms").child("security").child(macAddress).set(room)
-    print("MAC: " + macAddress + "has been assgned with Name: " + name + " and AL: " + accessLevel)
-    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-    text = "TTPi Assgned to " + name
-    textToWrite = [ord(i) for i in text]
-    i2c_digole.write_block_data(address, 0x00, textToWrite)
+    db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddress).set(room)
+    digoleWrite("Pi assigned to " + name)
     return render_template('/index.html')
 
 @app.route('/start_normal_mode')
 def startNormalMode():
-    isNormalModeRunning = True
+    global isNormalModeRunning
+    isNormalModeRunning = True   
     return "Roomi started"
 
 @app.route('/stop_normal_mode')
 def stopNormalMode():
+    global isNormalModeRunning
     isNormalModeRunning = False
     return "Roomi stopped"
 
@@ -185,7 +170,7 @@ def getCardId():
 
 #- Checks if card is already in DB -#
 def isCardAvailable(cardID):
-    keyCards = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").shallow().get().val()
+    keyCards = db.child("users").child(dbUserKey).child("personnel").shallow().get().val()
 
     if cardID in keyCards:
         return False
@@ -201,6 +186,13 @@ def getMACAdd():
         str = "00:00:00:00:00:00"
 
     return (str[0:17])
+
+#- Write text to LCD -#
+def digoleWrite(text):
+    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+    text = "TT" + text
+    textToWrite = [ord(i) for i in text]
+    i2c_digole.write_block_data(address, 0x00, textToWrite)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', threaded=True)
