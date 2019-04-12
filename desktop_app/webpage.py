@@ -9,6 +9,20 @@ import busio
 from digitalio import DigitalInOut
 from adafruit_pn532.i2c import PN532_I2C
 
+#- LCD Functions -#
+def digoleWriteText(text):
+    text = "TT" + text
+    textToWrite = [ord(i) for i in text]
+    i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+def digoleWriteCommand(text):
+    textToWrite = [ord(i) for i in text]
+    i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+def digoleClearScreen():
+    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+
+
 # Solenoid Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -17,7 +31,9 @@ GPIO.setup(26, GPIO.OUT)
 #Digole Setup and clear screen
 i2c_digole = smbus.SMBus(1)
 address = 0x27
-i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+digoleClearScreen()
+digoleWriteCommand("ETP99")
+digoleWriteText("ROOMI")
 
 #NFC Setup
 i2c_nfc = busio.I2C(board.SCL, board.SDA)
@@ -67,14 +83,23 @@ def normalModeThread():
                     if persAL >= piAL:
                         #Solenoid unlocking
                         GPIO.output(26, GPIO.HIGH)
-                        digoleWriteText("Unlocked")                
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Access Granted")               
                         time.sleep(3)
                         #Solenoid locking
                         GPIO.output(26, GPIO.LOW)
-                        digoleWriteText("Locked")
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Security Enabled")
                     else:
-                        digoleWriteText("Denied")
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Access Denied")
                         time.sleep(3)
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Security Enabled")
 
     thread = threading.Thread(target=run)
     thread.start()
@@ -219,20 +244,6 @@ def getMACAdd():
         str = "00:00:00:00:00:00"
 
     return (str[0:17])
-
-#- Write text to LCD -#
-def digoleWriteText(text):
-    text = "TT" + text
-    textToWrite = [ord(i) for i in text]
-    i2c_digole.write_block_data(address, 0x00, textToWrite)
-
-def digoleWriteCommand(text):
-    textToWrite = [ord(i) for i in text]
-    print(textToWrite)
-    i2c_digole.write_block_data(address, 0x00, textToWrite)
-
-def digoleClearScreen():
-    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', threaded=True)
