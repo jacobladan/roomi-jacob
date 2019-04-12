@@ -5,16 +5,16 @@ $(document).ready(function(){
 
         if (validate(name, accessLevel)) {
             var timeleft = 10;
-            var downloadTimer = setInterval(function(){
-            document.getElementById("progressBar").value = 10 - timeleft;
-            timeleft -= 1;
-            if(timeleft <= 0) { clearInterval(downloadTimer) }
+            var timer = setInterval(function(){
+                document.getElementById("progressBar").value = 11 - timeleft;
+                timeleft -= 1;
+                if(timeleft <= 0) { clearInterval(timer) }
             }, 1000);
 
             $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
                 if (data.gotCard === 'true') {
                     addToDB(name, accessLevel, data.cardId);
-                } else if {
+                } else if (data.gotCard == 'unique') {
                     alert("That card has already been assigned");
                     window.location.replace($SCRIPT_ROOT + '/');
                 } else { 

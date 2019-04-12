@@ -67,13 +67,13 @@ def normalModeThread():
                     if persAL >= piAL:
                         #Solenoid unlocking
                         GPIO.output(26, GPIO.HIGH)
-                        digoleWrite("Unlocked")                
+                        digoleWriteText("Unlocked")                
                         time.sleep(3)
                         #Solenoid locking
                         GPIO.output(26, GPIO.LOW)
-                        digoleWrite("Locked")
+                        digoleWriteText("Locked")
                     else:
-                        digoleWrite("Denied")
+                        digoleWriteText("Denied")
                         time.sleep(3)
 
     thread = threading.Thread(target=run)
@@ -81,6 +81,9 @@ def normalModeThread():
 
 @app.route('/')
 def index():
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("ROOMI")
     return render_template('index.html')
 
 @app.route('/add_personnel')
@@ -93,6 +96,9 @@ def assignRoom():
 
 @app.route('/running')
 def running():
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("Security Enabled")
     return render_template('running.html')
 
 @app.route('/stop_security')
@@ -102,13 +108,23 @@ def stopSecurity():
 #- Gets card ID to assign to personnel -#
 @app.route('/poll_for_card')
 def pollForCard():
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("Scanning for card...")
     cardId = getCardId()
     if cardId is None:
+        digoleClearScreen()
+        digoleWriteCommand("ETP99")
+        digoleWriteText("No card found")
         return jsonify(gotCard='false', cardId="null")
-    elif not isCardAvailable(cardId):
-        return jsonify(gotCard='unique', cardId="null")
     else:
-        return jsonify(gotCard='true', cardId=cardId)
+        if not isCardAvailable(cardId):
+            digoleClearScreen()
+            digoleWriteCommand("ETP99")
+            digoleWriteText("Card already in use")
+            return jsonify(gotCard='unique', cardId="null")
+        else: 
+            return jsonify(gotCard='true', cardId=cardId)
 
 @app.route('/add_personnel_to_db')
 def addPersonnelToDB():
@@ -122,7 +138,14 @@ def addPersonnelToDB():
     }
 
     db.child("users").child(dbUserKey).child("personnel").child(cardId).set(personnel)
-    digoleWrite(name + " added")
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("Personnel Added")
+    digoleWriteCommand("TRT")
+    digoleWriteCommand("TRT")
+    digoleWriteText("Name: " + name)
+    digoleWriteCommand("TRT")
+    digoleWriteText("Access Level: " + accessLevel)
     return render_template('/index.html')
 
 #- Assignes the RPi to room with MAC as DB Key -#
@@ -138,7 +161,14 @@ def addRoomToDB():
     }
 
     db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddress).set(room)
-    digoleWrite("Pi assigned to " + name)
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("RPi Assigned")
+    digoleWriteCommand("TRT")
+    digoleWriteCommand("TRT")
+    digoleWriteText("Name: " + name)
+    digoleWriteCommand("TRT")
+    digoleWriteText("Access Level: " + accessLevel)
     return render_template('/index.html')
 
 @app.route('/start_normal_mode')
@@ -158,7 +188,7 @@ def stopNormalMode():
 def getCardId():
     startTime = time.time()
     while True:
-        if startTime - time.time() > 10:
+        if time.time() - startTime > 11:
             return
         else:
             uid = pn532.read_passive_target(timeout=1)
@@ -171,11 +201,14 @@ def getCardId():
 #- Checks if card is already in DB -#
 def isCardAvailable(cardID):
     keyCards = db.child("users").child(dbUserKey).child("personnel").shallow().get().val()
-
-    if cardID in keyCards:
-        return False
-    else:
+    
+    if keyCards is None:
         return True
+    else:
+        if cardID in keyCards:
+            return False
+        else:
+            return True
 
 #- Get RPi's MAC Address -#
 def getMACAdd():
@@ -188,11 +221,18 @@ def getMACAdd():
     return (str[0:17])
 
 #- Write text to LCD -#
-def digoleWrite(text):
-    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+def digoleWriteText(text):
     text = "TT" + text
     textToWrite = [ord(i) for i in text]
     i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+def digoleWriteCommand(text):
+    textToWrite = [ord(i) for i in text]
+    print(textToWrite)
+    i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+def digoleClearScreen():
+    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', threaded=True)
