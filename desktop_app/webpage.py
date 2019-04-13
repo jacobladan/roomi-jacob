@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, url_for, redirect
 import time, threading
+from datetime import datetime
 import pyrebase
 import RPi.GPIO as GPIO
 from digole import lcd
@@ -9,14 +10,32 @@ import busio
 from digitalio import DigitalInOut
 from adafruit_pn532.i2c import PN532_I2C
 
+#- LCD Functions -#
+def digoleWriteText(text):
+    text = "TT" + text
+    textToWrite = [ord(i) for i in text]
+    i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+def digoleWriteCommand(text):
+    textToWrite = [ord(i) for i in text]
+    i2c_digole.write_block_data(address, 0x00, textToWrite)
+
+def digoleClearScreen():
+    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+
+
 # Solenoid Setup
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(26, GPIO.OUT)
+
 #Digole Setup and clear screen
 i2c_digole = smbus.SMBus(1)
 address = 0x27
-i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+digoleClearScreen()
+digoleWriteCommand("ETP99")
+digoleWriteText("ROOMI")
+
 #NFC Setup
 i2c_nfc = busio.I2C(board.SCL, board.SDA)
 reset_pin = DigitalInOut(board.D6)
@@ -36,10 +55,12 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 #- Authentication for Firebase -#
-user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
+#user = auth.sign_in_with_email_and_password("rpi@gmail.com", "rpirpi")
+user = auth.sign_in_with_email_and_password("roomi.develop@gmail.com", "roomi1")
 db = firebase.database()
 
 isNormalModeRunning = False
+dbUserKey = "jKz8q9JKxjWOscY3OTj7mlLgrDA2"
 
 app = Flask(__name__)
 
@@ -47,46 +68,66 @@ app = Flask(__name__)
 @app.before_first_request
 def normalModeThread():
     def run():
-        print("Thread started")
         global isNormalModeRunning
-        while isNormalModeRunning:
-            macAddr = getMACAdd()
-            cardID = "".join([hex(i)[2:] for i in uid])
-            persAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardID).child("accessLevel").get().val() 
-            piAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
-            print(persAL)
-            print(piAL)
-            if persAL >= piAL:
-                #Solenoid unlocking
-                print("Solenoid Pulled")
-                GPIO.output(26, GPIO.HIGH)
-            
-                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-                text = "TTUnlocked"
-                textToWrite = [ord(i) for i in text]
-                i2c_digole.write_block_data(address, 0x00, textToWrite)
-                    
-                time.sleep(3)
-
-                #Solenoid locking
-                print("Solenoid pushed!")
-                GPIO.output(26, GPIO.LOW)
-
-                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-                text = "TTLocked"
-                textToWrite = [ord(i) for i in text]
-                i2c_digole.write_block_data(address, 0x00, textToWrite)
-            else:
-                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-                text = "TTDenied"
-                textToWrite = [ord(i) for i in text]
-                i2c_digole.write_block_data(address, 0x00, textToWrite)
+        while True:
+            while isNormalModeRunning:
+                uid = pn532.read_passive_target(timeout=1)
+                if uid is None:
+                    continue
+                else:
+                    macAddr = getMACAdd()
+                    cardID = "".join([hex(i)[2:] for i in uid])
+                    persAL = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("accessLevel").get().val()
+                    personnelName = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("name").get().val()
+                    roomName = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("name").get().val()
+                    piAL = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+                    timeNow = datetime.now()
+                    if persAL >= piAL:
+                        #Solenoid unlocking
+                        GPIO.output(26, GPIO.HIGH)
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Access Granted")
+                        digoleWriteCommand("TRT")
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Name: " + personnelName)
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Date: " + timeNow.strftime("%m/%d/%y"))
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Time: " + timeNow.strftime("%H:%M:%S"))
+                        time.sleep(3)
+                        #Solenoid locking
+                        GPIO.output(26, GPIO.LOW)
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Security Enabled")
+                        digoleWriteCommand("TRT")
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Room: " + roomName)
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Access Level: " + piAL)
+                    else:
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Access Denied")
+                        time.sleep(3)
+                        digoleClearScreen()
+                        digoleWriteCommand("ETP99")
+                        digoleWriteText("Security Enabled")
+                        digoleWriteCommand("TRT")
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Room: " + roomName)
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Access Level: " + piAL)
 
     thread = threading.Thread(target=run)
     thread.start()
 
 @app.route('/')
 def index():
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("ROOMI")
     return render_template('index.html')
 
 @app.route('/add_personnel')
@@ -108,13 +149,23 @@ def stopSecurity():
 #- Gets card ID to assign to personnel -#
 @app.route('/poll_for_card')
 def pollForCard():
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("Scanning for card...")
     cardId = getCardId()
     if cardId is None:
-        return jsonify(gotCard='false', cardId="null")
-    elif not isCardAvailable(cardId):
+        digoleClearScreen()
+        digoleWriteCommand("ETP99")
+        digoleWriteText("No card found")
         return jsonify(gotCard='false', cardId="null")
     else:
-        return jsonify(gotCard='true', cardId=cardId)
+        if not isCardAvailable(cardId):
+            digoleClearScreen()
+            digoleWriteCommand("ETP99")
+            digoleWriteText("Card already in use")
+            return jsonify(gotCard='unique', cardId="null")
+        else: 
+            return jsonify(gotCard='true', cardId=cardId)
 
 @app.route('/add_personnel_to_db')
 def addPersonnelToDB():
@@ -127,12 +178,15 @@ def addPersonnelToDB():
         "accessLevel": accessLevel,
     }
 
-    db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardId).set(personnel)
-    print("Personnel with cardId: " + cardId + ", Name: " + name + ", and AL: " + accessLevel)
-    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-    text = "TT" + name + " added"
-    textToWrite = [ord(i) for i in text]
-    i2c_digole.write_block_data(address, 0x00, textToWrite)
+    db.child("users").child(dbUserKey).child("personnel").child(cardId).set(personnel)
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("Personnel Added")
+    digoleWriteCommand("TRT")
+    digoleWriteCommand("TRT")
+    digoleWriteText("Name: " + name)
+    digoleWriteCommand("TRT")
+    digoleWriteText("Access Level: " + accessLevel)
     return render_template('/index.html')
 
 #- Assignes the RPi to room with MAC as DB Key -#
@@ -147,21 +201,42 @@ def addRoomToDB():
         "accessLevel": accessLevel
     }
 
-    db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("rooms").child("security").child(macAddress).set(room)
-    print("MAC: " + macAddress + "has been assgned with Name: " + name + " and AL: " + accessLevel)
-    i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
-    text = "TTPi Assgned to " + name
-    textToWrite = [ord(i) for i in text]
-    i2c_digole.write_block_data(address, 0x00, textToWrite)
+    db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddress).set(room)
+    digoleClearScreen()
+    digoleWriteCommand("ETP99")
+    digoleWriteText("RPi Assigned")
+    digoleWriteCommand("TRT")
+    digoleWriteCommand("TRT")
+    digoleWriteText("Name: " + name)
+    digoleWriteCommand("TRT")
+    digoleWriteText("Access Level: " + accessLevel)
+    digoleWriteCommand("TRT")
+    digoleWriteText("RPi MAC: " + macAddress)
     return render_template('/index.html')
 
 @app.route('/start_normal_mode')
 def startNormalMode():
+    global isNormalModeRunning
     isNormalModeRunning = True
+    macAddr = getMACAdd();
+    roomName = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("name").get().val()
+    piAL = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+    if roomName is None:
+        return jsonify(piAssigned='false')
+    else:
+        digoleClearScreen()
+        digoleWriteCommand("ETP99")
+        digoleWriteText("Security Enabled")
+        digoleWriteCommand("TRT")
+        digoleWriteCommand("TRT")
+        digoleWriteText("Room: " + roomName)
+        digoleWriteCommand("TRT")
+        digoleWriteText("Access Level: " + piAL)
     return "Roomi started"
 
 @app.route('/stop_normal_mode')
 def stopNormalMode():
+    global isNormalModeRunning
     isNormalModeRunning = False
     return "Roomi stopped"
 
@@ -170,7 +245,7 @@ def stopNormalMode():
 def getCardId():
     startTime = time.time()
     while True:
-        if startTime - time.time() > 10:
+        if time.time() - startTime > 11:
             return
         else:
             uid = pn532.read_passive_target(timeout=1)
@@ -182,12 +257,15 @@ def getCardId():
 
 #- Checks if card is already in DB -#
 def isCardAvailable(cardID):
-    keyCards = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").shallow().get().val()
-
-    if cardID in keyCards:
-        return False
-    else:
+    keyCards = db.child("users").child(dbUserKey).child("personnel").shallow().get().val()
+    
+    if keyCards is None:
         return True
+    else:
+        if cardID in keyCards:
+            return False
+        else:
+            return True
 
 #- Get RPi's MAC Address -#
 def getMACAdd():

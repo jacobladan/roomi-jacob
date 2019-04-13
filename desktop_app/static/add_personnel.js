@@ -5,18 +5,21 @@ $(document).ready(function(){
 
         if (validate(name, accessLevel)) {
             var timeleft = 10;
-            var downloadTimer = setInterval(function(){
-            document.getElementById("progressBar").value = 10 - timeleft;
-            timeleft -= 1;
-            if(timeleft <= 0) { clearInterval(downloadTimer) }
+            var timer = setInterval(function(){
+                document.getElementById("progressBar").value = 11 - timeleft;
+                timeleft -= 1;
+                if(timeleft <= 0) { clearInterval(timer) }
             }, 1000);
 
             $.getJSON($SCRIPT_ROOT + '/poll_for_card', {}, function(data) {
                 if (data.gotCard === 'true') {
                     addToDB(name, accessLevel, data.cardId);
+                } else if (data.gotCard == 'unique') {
+                    alert("That card has already been assigned");
+                    window.location.replace($SCRIPT_ROOT + '/');
                 } else { 
                     alert("Didn't see a card");
-                    window.location = $SCRIPT_ROOT + '/';
+                    window.location.replace($SCRIPT_ROOT + '/');
                 }
             })
         }
@@ -24,7 +27,7 @@ $(document).ready(function(){
 });
 
 function validate(name, accessLevel) {
-    var nameRegex = /^[a-zA-Z]+$/;
+    var nameRegex = /^[a-zA-Z0-9]+$/;
     var accessLevelRegex = /[0-5]/;
 
     if (name.length === 0 || name.length > 16 || !nameRegex.test(name)) {

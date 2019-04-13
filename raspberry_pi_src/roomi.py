@@ -49,6 +49,8 @@ req_pin = DigitalInOut(board.D12)
 pn532 = PN532_I2C(i2c_nfc, debug=False, reset=reset_pin, req=req_pin)
 pn532.SAM_configuration()
 
+dbUserKey = "jKz8q9JKxjWOscY3OTj7mlLgrDA2"
+
 # Loop that controls the operation
 while True:
     uid = pn532.read_passive_target(timeout=1)
@@ -59,8 +61,8 @@ while True:
     else:
         macAddr = getMACAdd()
         cardID = "".join([hex(i)[2:] for i in uid])
-        persAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardID).child("accessLevel").get().val() 
-        piAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+        persAL = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("accessLevel").get().val() 
+        piAL = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
         print(persAL)
         print(piAL)
         if persAL >= piAL:
