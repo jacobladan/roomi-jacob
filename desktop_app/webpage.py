@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, url_for, redirect
 import time, threading
+from datetime import datetime
 import pyrebase
 import RPi.GPIO as GPIO
 from digole import lcd
@@ -67,9 +68,7 @@ app = Flask(__name__)
 @app.before_first_request
 def normalModeThread():
     def run():
-        # print("Thread started")
         global isNormalModeRunning
-        # print("%r" % isNormalModeRunning)
         while True:
             while isNormalModeRunning:
                 uid = pn532.read_passive_target(timeout=1)
@@ -78,20 +77,35 @@ def normalModeThread():
                 else:
                     macAddr = getMACAdd()
                     cardID = "".join([hex(i)[2:] for i in uid])
-                    persAL = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("accessLevel").get().val() 
+                    persAL = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("accessLevel").get().val()
+                    personnelName = db.child("users").child(dbUserKey).child("personnel").child(cardID).child("name").get().val()
+                    roomName = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("name").get().val()
                     piAL = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+                    timeNow = datetime.now()
                     if persAL >= piAL:
                         #Solenoid unlocking
                         GPIO.output(26, GPIO.HIGH)
                         digoleClearScreen()
                         digoleWriteCommand("ETP99")
-                        digoleWriteText("Access Granted")               
+                        digoleWriteText("Access Granted")
+                        digoleWriteCommand("TRT")
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Name: " + personnelName)
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Date: " + timeNow.strftime("%m/%d/%y"))
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Time: " + timeNow.strftime("%H:%M:%S"))
                         time.sleep(3)
                         #Solenoid locking
                         GPIO.output(26, GPIO.LOW)
                         digoleClearScreen()
                         digoleWriteCommand("ETP99")
                         digoleWriteText("Security Enabled")
+                        digoleWriteCommand("TRT")
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Room: " + roomName)
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Access Level: " + piAL)
                     else:
                         digoleClearScreen()
                         digoleWriteCommand("ETP99")
@@ -100,6 +114,11 @@ def normalModeThread():
                         digoleClearScreen()
                         digoleWriteCommand("ETP99")
                         digoleWriteText("Security Enabled")
+                        digoleWriteCommand("TRT")
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Room: " + roomName)
+                        digoleWriteCommand("TRT")
+                        digoleWriteText("Access Level: " + piAL)
 
     thread = threading.Thread(target=run)
     thread.start()
@@ -121,9 +140,6 @@ def assignRoom():
 
 @app.route('/running')
 def running():
-    digoleClearScreen()
-    digoleWriteCommand("ETP99")
-    digoleWriteText("Security Enabled")
     return render_template('running.html')
 
 @app.route('/stop_security')
@@ -194,12 +210,28 @@ def addRoomToDB():
     digoleWriteText("Name: " + name)
     digoleWriteCommand("TRT")
     digoleWriteText("Access Level: " + accessLevel)
+    digoleWriteCommand("TRT")
+    digoleWriteText("RPi MAC: " + macAddress)
     return render_template('/index.html')
 
 @app.route('/start_normal_mode')
 def startNormalMode():
     global isNormalModeRunning
-    isNormalModeRunning = True   
+    isNormalModeRunning = True
+    macAddr = getMACAdd();
+    roomName = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("name").get().val()
+    piAL = db.child("users").child(dbUserKey).child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+    if roomName is None:
+        return jsonify(piAssigned='false')
+    else:
+        digoleClearScreen()
+        digoleWriteCommand("ETP99")
+        digoleWriteText("Security Enabled")
+        digoleWriteCommand("TRT")
+        digoleWriteCommand("TRT")
+        digoleWriteText("Room: " + roomName)
+        digoleWriteCommand("TRT")
+        digoleWriteText("Access Level: " + piAL)
     return "Roomi started"
 
 @app.route('/stop_normal_mode')
