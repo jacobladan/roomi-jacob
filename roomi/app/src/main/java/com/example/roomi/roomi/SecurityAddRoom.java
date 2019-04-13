@@ -56,8 +56,7 @@ public class SecurityAddRoom extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
-                    int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
-//                    int accessLevel = Integer.parseInt(String.valueOf(accessLevelSpinner.getSelectedItem()));
+                    String accessLevel = accessLevelInput.getText().toString();
                     DatabaseReference newRoom = dbRef.push();
                     newRoom.setValue(new SecurityRoomDataStructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), name + " with access level " + accessLevel +  " created!", Toast.LENGTH_LONG);

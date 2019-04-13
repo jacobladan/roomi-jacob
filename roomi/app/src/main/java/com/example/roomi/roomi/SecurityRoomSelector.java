@@ -134,7 +134,7 @@ public class SecurityRoomSelector extends AppCompatActivity {
         for (SecurityRoomDataStructure room: roomList) {
             final String key = keyList[i];
             final String name = room.getName();
-            final int accessLevel = room.getAccessLevel();
+            final String accessLevel = room.getAccessLevel();
             final String accessInfo = "Access Level: " + accessLevel;
 
             LinearLayout roomContainer = new LinearLayout(this);

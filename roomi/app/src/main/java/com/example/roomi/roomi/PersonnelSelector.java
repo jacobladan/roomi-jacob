@@ -124,7 +124,7 @@ public class PersonnelSelector extends AppCompatActivity {
         if (personnelList.isEmpty()) {
             header.setText("No personnel have been created.");
         }
-
+        Log.d("roomi", "Personnel List: " + personnelList.isEmpty());
         i = 0;
         LinearLayout buttonContainer = findViewById(R.id.button_container);
         buttonContainer.removeAllViews();
@@ -134,7 +134,7 @@ public class PersonnelSelector extends AppCompatActivity {
         for (PersonnelDatastructure personnel: personnelList) {
             final String key = keyList[i];
             final String name = personnel.getName();
-            final int accessLevel = personnel.getaccessLevel();
+            final String accessLevel = personnel.getaccessLevel();
             final String accessInfo = "Access Level: " + accessLevel;
 
             LinearLayout personnelContainer = new LinearLayout(this);

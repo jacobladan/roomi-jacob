@@ -50,7 +50,7 @@ public class PersonnelAdd extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
-                    int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
+                    String accessLevel = accessLevelInput.getText().toString();
                     DatabaseReference newPersonnel = dbRef.push();
                     newPersonnel.setValue(new PersonnelDatastructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), name + " with access level " + accessLevel +  " created!", Toast.LENGTH_LONG);

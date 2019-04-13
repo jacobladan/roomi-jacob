@@ -2,7 +2,7 @@ package com.example.roomi.roomi;
 
 public class SecurityRoomDataStructure {
     private String name;
-    private int accessLevel;
+    private String accessLevel;
 
     public String getName() {
         return name;
@@ -20,17 +20,17 @@ public class SecurityRoomDataStructure {
         this.name = sb.toString().trim();
     }
 
-    public int getAccessLevel() {
+    public String getAccessLevel() {
         return accessLevel;
     }
 
-    public void setAccessLevel(int accessLevel) {
+    public void setAccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
     }
 
     public SecurityRoomDataStructure() {}
 
-    public SecurityRoomDataStructure(String name, int accessLevel) {
+    public SecurityRoomDataStructure(String name, String accessLevel) {
         this.name = name;
         this.accessLevel = accessLevel;
     }

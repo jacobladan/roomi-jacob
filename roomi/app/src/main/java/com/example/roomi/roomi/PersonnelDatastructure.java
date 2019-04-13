@@ -3,13 +3,13 @@ package com.example.roomi.roomi;
 // The data structure for for working with personal
 public class PersonnelDatastructure {
     private String name;
-    private int accessLevel;
+    private String accessLevel;
 
     public PersonnelDatastructure() {
 
     }
 
-    public PersonnelDatastructure(String name, int accessLevel) {
+    public PersonnelDatastructure(String name, String accessLevel) {
         this.name = name;
         this.accessLevel = accessLevel;
     }
@@ -31,11 +31,11 @@ public class PersonnelDatastructure {
     }
 
 
-    public int getaccessLevel() {
+    public String getaccessLevel() {
         return accessLevel;
     }
 
-    public void setaccessLevel(int accessLevel) {
+    public void setaccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
     }
 }

@@ -72,7 +72,7 @@ public class SecurityRoomSettings extends AppCompatActivity {
             public void onClick(View v) {
                 if (validateData()) {
                     String name = nameInput.getText().toString();
-                    int accessLevel = Integer.parseInt(accessLevelInput.getText().toString());
+                    String accessLevel = accessLevelInput.getText().toString();
                     dbRef.child(key).setValue(new SecurityRoomDataStructure(name, accessLevel));
                     Toast toast = Toast.makeText(getApplicationContext(), "Updated " + name, Toast.LENGTH_LONG);
                     toast.show();

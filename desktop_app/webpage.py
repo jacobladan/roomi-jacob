@@ -50,30 +50,22 @@ def normalModeThread():
         print("Thread started")
         global isNormalModeRunning
         while isNormalModeRunning:
-            print("in the loop")
-            print("isNormalModeRunning: " + isNormalModeRunning.str())
-            uid = pn532.read_passive_target(timeout=1)
-            #print('.', end="")
-            # Try again if no card is available.
-            if uid is None:
-                continue
-            else:
-                
-                #Saves uid to cardID as single hex value
-                cardID = "".join([hex(i)[2:] for i in uid])
-                
-                #Dispalys cardID
-                print(cardID)
-                
+            macAddr = getMACAdd()
+            cardID = "".join([hex(i)[2:] for i in uid])
+            persAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("personnel").child(cardID).child("accessLevel").get().val() 
+            piAL = db.child("users").child("9FOHwo3m68dGwQfoCz0em6HJ0t73").child("rooms").child("security").child(macAddr).child("accessLevel").get().val()
+            print(persAL)
+            print(piAL)
+            if persAL >= piAL:
                 #Solenoid unlocking
                 print("Solenoid Pulled")
                 GPIO.output(26, GPIO.HIGH)
-                
+            
                 i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
                 text = "TTUnlocked"
                 textToWrite = [ord(i) for i in text]
                 i2c_digole.write_block_data(address, 0x00, textToWrite)
-                        
+                    
                 time.sleep(3)
 
                 #Solenoid locking
@@ -82,6 +74,11 @@ def normalModeThread():
 
                 i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
                 text = "TTLocked"
+                textToWrite = [ord(i) for i in text]
+                i2c_digole.write_block_data(address, 0x00, textToWrite)
+            else:
+                i2c_digole.write_block_data(address, 0x00, [0x43, 0x4c])
+                text = "TTDenied"
                 textToWrite = [ord(i) for i in text]
                 i2c_digole.write_block_data(address, 0x00, textToWrite)
 
@@ -114,7 +111,7 @@ def pollForCard():
     cardId = getCardId()
     if cardId is None:
         return jsonify(gotCard='false', cardId="null")
-    elif not getCardId():
+    elif not isCardAvailable(cardId):
         return jsonify(gotCard='false', cardId="null")
     else:
         return jsonify(gotCard='true', cardId=cardId)
